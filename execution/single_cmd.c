@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 23:14:54 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/02 22:26:27 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/03 16:31:31 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	single_cmd(t_cmd *cmd, t_env *env)
 	char	*temp;
 	int		io[2];
 
-	io[0] = set_in(*cmd);
+	io[0] = set_in(0, *cmd);
 	if (!cmd->cmd)
 		exit(0);
 	io[1] = set_out(*cmd);

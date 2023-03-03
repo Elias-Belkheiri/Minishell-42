@@ -6,18 +6,18 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:05:18 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/02 22:52:52 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/03 16:38:55 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 // reads from pipe 1 and write to pipe 2
-void	odd_child(int i, int in, int out, t_pipe p)
+void	odd_child(int in, int out, t_pipe p)
 {
 	close(p.p1[1]);
 	close(p.p2[0]);
-	if (in > -1)
+	if (in != IS_PIPE)
 	{
 		if (in)
 		{
@@ -28,8 +28,7 @@ void	odd_child(int i, int in, int out, t_pipe p)
 	else
 		dup2(p.p1[0], 0);
 	close(p.p1[0]);
-	// printf("%d, %d\n", p.p1[0], p.p2[1]);
-	if (i == -1)
+	if (out != IS_PIPE)
 	{
 		if (out != 1)
 		{
@@ -42,11 +41,12 @@ void	odd_child(int i, int in, int out, t_pipe p)
 	close(p.p2[1]);
 }
 // reads from pipe 2 and writes to pipe 1
-void	even_child(int i, int in, int out, t_pipe p)
+void	even_child(int in, int out, t_pipe p)
 {
 	close(p.p2[1]);
 	close(p.p1[0]);
-	if (!i || in > -1)
+	// dprintf(2, "%d\n", in);
+	if (in != IS_PIPE)
 	{
 		if (in)
 		{
@@ -57,8 +57,7 @@ void	even_child(int i, int in, int out, t_pipe p)
 	else
 		dup2(p.p2[0], 0);
 	close(p.p2[0]);
-	// printf("%d, %d\n", p.p2[0], p.p1[1]);
-	if (i == -1)
+	if (out != IS_PIPE)
 	{
 		if (out != 1)
 		{
@@ -71,14 +70,10 @@ void	even_child(int i, int in, int out, t_pipe p)
 	close(p.p1[1]);
 }
 
-int	ft_wait(int *id, int i, t_pipe *p)
+int	ft_wait(int *id, int i)
 {
 	int	status;
 
-	close(p->p1[0]);
-	close(p->p1[1]);
-	close(p->p2[0]);
-	close(p->p2[1]);
 	waitpid(id[i], &status, 0);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
@@ -91,10 +86,12 @@ void	child_process(t_cmd cmd, t_env *env, int i, t_pipe p)
 	char	*temp;
 	int		io[2];
 
-	// HANDLE MULTIPLE IN FILES
-	io[0] = set_in(cmd);
+	io[0] = set_in(i, cmd);
 	io[1] = set_out(cmd);
-	cmd_checker(p, cmd, io, i);
+	if (i % 2 == 0)
+		even_child(io[0], io[1], p);
+	else
+		odd_child(io[0], io[1], p);
 	path = ft_split(find_path(env), ':');
 	if (!path[0])
 	{
@@ -137,7 +134,11 @@ void	multiple_cmds(int count, t_cmd *cmd, t_env *env)
 		i++;
 		cmd = cmd->next;
 	}
-	ft_wait(id, cmdsize - 1, &p);
+	close(p.p1[0]);
+	close(p.p1[1]);
+	close(p.p2[0]);
+	close(p.p2[1]);
+	ft_wait(id, cmdsize - 1);
 	while (--i >= 0)
 		waitpid(id[i], NULL, 0);
 }

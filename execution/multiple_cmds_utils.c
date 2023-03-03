@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 19:37:34 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/02 22:53:40 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/03 16:39:09 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,33 +28,20 @@ void	check_pipe(t_pipe *p, int i)
 	}
 }
 
-void	cmd_checker(t_pipe p, t_cmd cmd, int *io, int i)
-{
-	if (i % 2 == 0)
-	{
-		if (cmd.next)
-			even_child(i, io[0], io[1], p);
-		else
-			even_child(-1, io[0], io[1], p);
-	}
-	else
-	{
-		if (!cmd.next)
-		{
-			// printf("here\n");
-			odd_child(-1, io[0], io[1], p);
-		}
-		else
-			odd_child(i, io[0], io[1], p);
-	}
-}
+// void	cmd_checker(t_pipe p, int *io, int i)
+// {
+// 	if (i % 2 == 0)
+// 		even_child(io[0], io[1], p);
+// 	else
+// 		odd_child(io[0], io[1], p);
+// }
 
-int	set_in(t_cmd cmd)
+int	set_in(int i, t_cmd cmd)
 {
 	int	in_f;
 
-	if (!cmd.in && cmd.pipe)
-		in_f = -2;
+	if (i && cmd.next && !cmd.in && cmd.pipe)
+		in_f = IS_PIPE;
 	else if (cmd.in)
 	{
 		while (cmd.in)
@@ -65,7 +52,6 @@ int	set_in(t_cmd cmd)
 				if (in_f == -1)
 				{
 					ft_dprintf("%s: No such file or directory\n", cmd.in->redirection);
-					// LEAKS
 					exit (1);	
 				}
 			}
@@ -83,8 +69,8 @@ int	set_out(t_cmd cmd)
 {
 	int	out_f;
 
-	if (!cmd.out && cmd.pipe)
-		out_f = -2;
+	if (cmd.next && !cmd.out && cmd.pipe)
+		out_f = IS_PIPE;
 	else if (cmd.out)
 	{
 		while (cmd.out)

@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 15:07:19 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/03 00:28:14 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/03 15:36:00 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,38 +114,41 @@ void	check_arg(char *add, t_env *env, t_env **exp)
 			new->next = 0;
 		}
 		else
+		{
 			env_var(add, env, r, new);
+		}
 	}
 }
 
 int	export(t_env *env, char **add)
 {
 	t_env	*exp;
-	t_env	*temp;
+	// t_env	*temp;
 	int		i;
 
 	i = 1;
 	exp = (t_env *)ft_calloc(1, sizeof(t_env));
-	if (!add[1])
-	{
-		temp = env;
-		while (temp)
-		{
-			printf("%s=%s\n", temp->value, temp->key);
-			temp = temp->next;
-		}
-		while (exp)
-		{
-			if (exp->key)
-				printf("%s=", exp->key);
-			if (exp->value)
-				printf("%s\n", exp->value);
-			exp = exp->next;
-		}
-	}
+	// if (!add[1])
+	// {
+	// 	temp = env;
+	// 	while (temp)
+	// 	{
+	// 		printf("%s=%s\n", temp->value, temp->key);
+	// 		temp = temp->next;
+	// 	}
+	// 	while (exp)
+	// 	{
+	// 		if (exp->key)
+	// 			printf("%s=", exp->key);
+	// 		if (exp->value)
+	// 			printf("%s\n", exp->value);
+	// 		exp = exp->next;
+	// 	}
+	// }
 	while (add && add[i])
 	{
 		check_arg(add[i], env, &exp);
+			LEAKS
 		i++;
 	}
 	return (0);
