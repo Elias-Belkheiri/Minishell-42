@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:37:04 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/01 16:54:15 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/03 15:22:03 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ int check_syntax_errors(t_token *token)
 		return (ft_putendl_fd("syntax error near unexpected token", "newline", 2));
 	while (token)
 	{
-		if ((token->type == OPERATOR || token->type == PIPE) && check_spaces(token->next))
-			return (ft_putendl_fd("syntax error ", "Baby", 2));
 		if (tmp)
 		{
 			if ((tmp->type == OPERATOR || tmp->type == PIPE) && (token->type == OPERATOR || token->type == PIPE))

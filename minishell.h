@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 11:29:33 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/02 18:50:57 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/03 15:34:57 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define SINGLE 5
 # define HYPHEN 6
 # define WORD 7
+# define SINGLE_EXPAND 8
 # define LEAKS system("leaks minishell");
 
 # define RED   "\x1B[31m"
@@ -139,6 +140,8 @@ char	*ft_itoa(int n);
 void	ft_lstadd_back_4(t_redirection **lst, t_redirection *new);
 t_redirection	*ft_lstnew_4(char *out, int type);
 void	ft_lstclear_2(t_redirection **lst);
+t_redirection	*ft_lstlast_3(t_redirection *lst);
+void	ft_lstdelone_2(t_redirection *lst);
 void	*ft_calloc(size_t	n, size_t size);
 char	*ft_strnstr(const char	*big, const char	*lil, size_t	len);
 // int		ft_lstsize(t_token *lst);

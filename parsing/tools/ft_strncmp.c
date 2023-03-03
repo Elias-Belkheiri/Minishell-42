@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 19:16:46 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/01 16:53:46 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/03 15:22:47 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t			i;
@@ -46,6 +47,8 @@ int	ft_strcmp(const char *s1, const char *s2)
 	i = 0;
 	str1 = (unsigned char *)s1;
 	str2 = (unsigned char *)s2;
+	if (!str1 || !str2)
+		return (0);
 	while (s1[i] && s2[i])
 	{
 		if (str1[i] != str2[i])

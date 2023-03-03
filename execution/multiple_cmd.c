@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:05:18 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/02 19:19:39 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/02 22:52:52 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,14 @@ void	even_child(int i, int in, int out, t_pipe p)
 	close(p.p1[1]);
 }
 
-int	ft_wait(int *id, int i)
+int	ft_wait(int *id, int i, t_pipe *p)
 {
 	int	status;
 
+	close(p->p1[0]);
+	close(p->p1[1]);
+	close(p->p2[0]);
+	close(p->p2[1]);
 	waitpid(id[i], &status, 0);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
@@ -129,27 +133,11 @@ void	multiple_cmds(int count, t_cmd *cmd, t_env *env)
 			else
 				child_process(*cmd, env, i, p);
 		}
-		if (i % 2)
-		{
-			close (p.p1[0]);
-			close (p.p1[1]);
-			pipe(p.p1);
-		}
-		if (i && !(i % 2))
-		{
-			close (p.p2[0]);
-			close (p.p2[1]);
-			pipe(p.p2);
-		}
+		check_pipe(&p, i);
 		i++;
 		cmd = cmd->next;
 	}
-	// printf("{%d}\n", i);
-	close(p.p1[0]);
-	close(p.p1[1]);
-	close(p.p2[0]);
-	close(p.p2[1]);
-	ft_wait(id, cmdsize - 1);
+	ft_wait(id, cmdsize - 1, &p);
 	while (--i >= 0)
 		waitpid(id[i], NULL, 0);
 }

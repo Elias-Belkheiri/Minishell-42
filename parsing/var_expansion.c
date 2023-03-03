@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_expansion.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:59:11 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/01 16:40:45 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/03 15:33:09 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,10 +152,20 @@ void	ignore_exp_here_doc(t_token *tok)
 			if (tok->next && tok->next->type == SPACE)
 			{
 				if(tok->next->next)
-					tok->next->next->type = SINGLE;
+				{
+					if (tok->next->next->type == WORD)
+						tok->next->next->type = SINGLE_EXPAND;
+					else
+						tok->next->next->type = SINGLE;
+				}
 			}
 			else if (tok->next)
-				tok->next->type = SINGLE;
+			{
+				if (tok->next->type == WORD)
+					tok->next->type = SINGLE_EXPAND;
+				else
+					tok->next->type = SINGLE;
+			}
 		}
 		tok = tok->next;
 	}

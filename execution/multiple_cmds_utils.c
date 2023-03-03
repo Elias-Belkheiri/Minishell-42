@@ -6,11 +6,27 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 19:37:34 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/02 18:57:57 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/02 22:53:40 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	check_pipe(t_pipe *p, int i)
+{
+	if (i % 2)
+	{
+		close (p->p1[0]);
+		close (p->p1[1]);
+		pipe(p->p1);
+	}
+	if (i && !(i % 2))
+	{
+		close (p->p2[0]);
+		close (p->p2[1]);
+		pipe(p->p2);
+	}
+}
 
 void	cmd_checker(t_pipe p, t_cmd cmd, int *io, int i)
 {

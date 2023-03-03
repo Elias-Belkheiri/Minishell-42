@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 15:07:19 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/02 19:19:21 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/03 00:28:14 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	is_alphanum(char *s)
 	int	i;
 
 	i = 0;
-	if (s && !(s[i] >= 'a' && s[i] >= 'z') && !(s[i] >= 'A' && s[i] <= 'Z')
+	if (s && !(s[i] >= 'a' && s[i] <= 'z') && !(s[i] >= 'A' && s[i] <= 'Z')
 		&& s[i] != '_')
 		return (0);
 	while (s && s[i])
@@ -35,7 +35,7 @@ int	is_alphanum(char *s)
 	return (-1);
 }
 
-void	env_var(char *add, t_env **env, int r, t_env *new)
+void	env_var(char *add, t_env *env, int r, t_env *new)
 {
 	t_env	*temp;
 
@@ -43,24 +43,24 @@ void	env_var(char *add, t_env **env, int r, t_env *new)
 		ft_dprintf("export: `%s': not a valid identifier\n", add);
 	else
 	{
-		temp = (*env);
+		temp = env;
 		while (temp)
 		{
-			if (!ft_strncmp(ft_substr(add, 0, r + 1), temp->key, 0))
+			if (!ft_strcmp(ft_substr(add, 0, r), temp->key))
 			{
-				temp->value = ft_strjoin(temp->value, ft_substr(add, 0, r + 1));
+				temp->value = ft_strjoin(temp->value, ft_substr(add, r + 2, ft_strlen(add) - r - 2));
 				break ;
 			}
 			temp = temp->next;
 		}
 		if (!temp)
 		{
-			temp = (*env);
+			temp = env;
 			while (temp->next)
 				temp = temp->next;
 			temp->next = new;
 			new->key = ft_substr(add, 0, r + 1);
-			new->key = ft_substr(add, r + 1, ft_strlen(add) - r);
+			new->value = ft_substr(add, r + 1, ft_strlen(add) - r);
 		}
 	}
 }
@@ -91,7 +91,7 @@ void	exported_vars(int r, char *add, t_env **exp)
 	}
 }
 
-void	check_arg(char *add, t_env **env, t_env **exp)
+void	check_arg(char *add, t_env *env, t_env **exp)
 {
 	t_env	*temp;
 	t_env	*new;
@@ -102,14 +102,14 @@ void	check_arg(char *add, t_env **env, t_env **exp)
 		exported_vars(r, add, exp);
 	else
 	{
-		temp = (*env);
+		temp = env;
 		new = (t_env *)ft_calloc(1, sizeof(t_env));
 		if (add[r] == '=')
 		{
 			while (temp->next)
 				temp = temp->next;
 			temp->next = new;
-			new->key = ft_substr(add, 0, r + 1);
+			new->key = ft_substr(add, 0, r);
 			new->value = ft_substr(add, r + 1, ft_strlen(add) - r);
 			new->next = 0;
 		}
@@ -118,13 +118,31 @@ void	check_arg(char *add, t_env **env, t_env **exp)
 	}
 }
 
-int	export(t_env **env, char **add)
+int	export(t_env *env, char **add)
 {
 	t_env	*exp;
+	t_env	*temp;
 	int		i;
 
-	i = 0;
+	i = 1;
 	exp = (t_env *)ft_calloc(1, sizeof(t_env));
+	if (!add[1])
+	{
+		temp = env;
+		while (temp)
+		{
+			printf("%s=%s\n", temp->value, temp->key);
+			temp = temp->next;
+		}
+		while (exp)
+		{
+			if (exp->key)
+				printf("%s=", exp->key);
+			if (exp->value)
+				printf("%s\n", exp->value);
+			exp = exp->next;
+		}
+	}
 	while (add && add[i])
 	{
 		check_arg(add[i], env, &exp);

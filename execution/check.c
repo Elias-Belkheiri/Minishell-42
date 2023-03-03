@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 22:21:01 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/02 21:41:59 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/02 23:20:25 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void	call_builtin(t_env *env_var, t_cmd	*cmd)
 		pwd();
 	else if (!ft_strcmp("env", cmd->cmd[0]))
 		env(env_var);
+	else if (!ft_strcmp("export", cmd->cmd[0]))
+		export(env_var, cmd->cmd);	
 }
 
 void	check(t_cmd *cmd, t_env *env)

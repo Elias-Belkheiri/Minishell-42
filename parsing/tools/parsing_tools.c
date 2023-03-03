@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_tools.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 16:35:45 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/01 16:54:09 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/03 15:22:27 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,22 @@
 
 void	set_operator(t_token *token, t_redirection **redirection, int type)
 {
-	if (token->next)
-		ft_lstadd_back_4(redirection, ft_lstnew_4(ft_strdup(token->next->content), type));
+	if (token)
+		ft_lstadd_back_4(redirection, ft_lstnew_4(ft_strdup(token->content), type));
+	if (token && type == HERE_DOC && token->type == SINGLE_EXPAND)
+		ft_lstlast_3(*redirection)->should_expand = 1;
 }
 
 void	is_operator(t_token *token, t_cmd *cmd)
 {
 	if (!ft_strcmp(token->content, "<<"))
-		set_operator(token, &cmd->in, HERE_DOC);
+		set_operator(token->next, &cmd->in, HERE_DOC);
 	else if (*(token->content) == '<')
-		set_operator(token, &cmd->in, IN);
+		set_operator(token->next, &cmd->in, IN);
 	else if (!ft_strcmp(token->content, ">>"))
-		set_operator(token, &cmd->out, APPEND);
+		set_operator(token->next, &cmd->out, APPEND);
 	else if (*(token->content) == '>')
-		set_operator(token, &cmd->out, OUT);
+		set_operator(token->next, &cmd->out, OUT);
 }
 
 void	hyphen_expansion(t_token *token, t_env *env)

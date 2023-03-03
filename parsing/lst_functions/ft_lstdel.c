@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 14:54:49 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/01 16:52:34 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/03 15:19:58 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
 void	ft_lstdel(t_token *bef, t_token **current, t_token **tokens)
 {
 	t_token	*tmp;

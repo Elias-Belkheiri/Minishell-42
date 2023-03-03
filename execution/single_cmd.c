@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 23:14:54 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/02 19:19:49 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/02 22:26:27 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*check_path(char	**path, char	**utils)
 	}
 	if (!path[i])
 	{
-		ft_dprintf("%s: Command not found\n", utils[0]);
+		ft_dprintf("%s: command not found\n", utils[0]);
 		exit (127);
 	}
 	return (temp);
