@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 11:32:23 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/04 13:35:22 by ebelkhei         ###   ########.fr       */
+/*   Updated: 2023/03/04 16:51:01 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@ int	main(int argc, char *argv[], char *envp[])
 	g_global_data.exit_status = 0;
 	if (!parse_env(envp, &environment))
 		write(2, "Invalid environment\n", 21);
+	signal(SIGQUIT, sig_quit_handler);
+	signal(SIGINT, sig_int_handler);
 	while (1)
 	{
 		tokens = NULL;
 		cmds = NULL;
-		line = readline(RED "minishell$ " RESET);
+		line = readline(RED "Minishell$ " RESET);
 		if (!line)
 			exit(g_global_data.exit_status); // exit with the last exit status $? and not 0
 		add_history(line);

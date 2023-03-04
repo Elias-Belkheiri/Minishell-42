@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:05:18 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/04 00:29:22 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/04 16:11:59 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	child_process(t_cmd cmd, t_env *env, int i, t_pipe p, int her)
 	char	*temp;
 	int		io[2];
 
-	// HANDLE MULTIPLE IN FILES
+	// dprintf(2, "cmd in 1 %p\n", cmd.in);
 	io[0] = set_in(i, cmd, her);
 	io[1] = set_out(cmd);
 	cmd_checker(p, cmd, io, i);
@@ -116,12 +116,14 @@ void	multiple_cmds(int count, t_cmd *cmd, t_env *env)
 	int		her;
 
 	i = 0;
+	// dprintf(2, "before %p\n", cmd->in);
 	cmdsize = ft_cmdsize(cmd);
-	her = find_herdoc(cmd);
+	// dprintf(2, "after %p\n", cmd->in);
 	pipe(p.p1);
 	pipe(p.p2);
 	while (cmd && i < count)
 	{
+		her = find_herdoc(cmd);
 		id[i] = fork();
 		if (!id[i])
 		{

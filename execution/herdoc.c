@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   herdoc.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/04 15:09:16 by hhattaki          #+#    #+#             */
+/*   Updated: 2023/03/04 16:24:39 by hhattaki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	herdoc(char *del)
@@ -30,19 +42,23 @@ int	herdoc(char *del)
 	}
 	waitpid(id, 0, 0);
 	close (p[1]);
+	// dprintf(2, "to ret %d\n", p[0]);
 	return (p[0]);
 }
 
 int	find_herdoc(t_cmd *cmd)
 {
-	int		her;
-	dprintf(2,"cmd %p\n", cmd);
-	while (cmd && cmd->in)
+	int				her;
+	// t_cmd			*temp;
+	t_redirection	*temp;
+
+	her = 0;
+	temp = cmd->in;
+	while (temp)
 	{
-	dprintf(2, "%p\n", cmd->in);
-		if (cmd->in->type == HERE_DOC)
-			her = herdoc(cmd->in->redirection);
-		cmd->in = cmd->in->next;
+		if (temp->type == HERE_DOC)
+			her = herdoc(temp->redirection);
+		temp = temp->next;
 	}
 	return (her);
 }

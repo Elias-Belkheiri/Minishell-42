@@ -8,8 +8,6 @@ NAME	= minishell
 
 MK_FILE	= Makefile
 
-# LIBFT	= ./libft/libft.a
-
 all		: $(NAME)
 
 $(NAME) : $(SRCS) $(MK_FILE)

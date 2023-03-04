@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 19:37:34 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/04 00:57:05 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/04 16:31:32 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	set_in(int i, t_cmd cmd, int herdoc)
 {
 	int	in_f;
 
-	dprintf(2, "here %p\n", cmd.in);
 	if (i && !cmd.in && cmd.pipe)
 		in_f = IS_PIPE;
 	else if (cmd.in)
@@ -68,6 +67,7 @@ int	set_in(int i, t_cmd cmd, int herdoc)
 	}
 	else
 		in_f = 0;
+	// dprintf(2, "her %d\n", in_f);
 	return (in_f);
 }
 

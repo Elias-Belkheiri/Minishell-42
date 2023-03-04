@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 11:29:33 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/03 15:34:57 by ebelkhei         ###   ########.fr       */
+/*   Updated: 2023/03/04 16:43:03 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,8 @@ t_redirection	*ft_lstlast_3(t_redirection *lst);
 void	ft_lstdelone_2(t_redirection *lst);
 void	*ft_calloc(size_t	n, size_t size);
 char	*ft_strnstr(const char	*big, const char	*lil, size_t	len);
+void	sig_int_handler(int a);
+void	sig_quit_handler(int a);
 // int		ft_lstsize(t_token *lst);
 // t_token	*ft_lstlast(t_token *lst);
 // void	ft_lstadd_front(t_token **lst, t_token *new);

@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 15:05:31 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/04 00:56:31 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/04 16:28:47 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ typedef struct s_pipe
 	int	p1[2];
 	int	p2[2];
 }	t_pipe;
+
+//add ambegious or whatever that shit is
 
 /*---------builtins---------*/
 int		pwd(void);
