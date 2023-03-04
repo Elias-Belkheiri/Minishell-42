@@ -33,6 +33,20 @@ int	herdoc(char *del)
 	return (p[0]);
 }
 
+int	find_herdoc(t_cmd *cmd)
+{
+	int		her;
+	dprintf(2,"cmd %p\n", cmd);
+	while (cmd && cmd->in)
+	{
+	dprintf(2, "%p\n", cmd->in);
+		if (cmd->in->type == HERE_DOC)
+			her = herdoc(cmd->in->redirection);
+		cmd->in = cmd->in->next;
+	}
+	return (her);
+}
+
 int	ft_cmdsize(t_cmd *lst)
 {
 	int	len;

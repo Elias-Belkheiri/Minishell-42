@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 19:37:34 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/03 16:39:09 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/04 00:57:05 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,25 @@ void	check_pipe(t_pipe *p, int i)
 	}
 }
 
-// void	cmd_checker(t_pipe p, int *io, int i)
-// {
-// 	if (i % 2 == 0)
-// 		even_child(io[0], io[1], p);
-// 	else
-// 		odd_child(io[0], io[1], p);
-// }
+void	cmd_checker(t_pipe p, t_cmd cmd, int *io, int i)
+{
+	(void)cmd;
+	if (i % 2 == 0)
+	{
+		even_child(io[0], io[1], p);
+	}
+	else
+	{
+		odd_child(io[0], io[1], p);
+	}
+}
 
-int	set_in(int i, t_cmd cmd)
+int	set_in(int i, t_cmd cmd, int herdoc)
 {
 	int	in_f;
 
-	if (i && cmd.next && !cmd.in && cmd.pipe)
+	dprintf(2, "here %p\n", cmd.in);
+	if (i && !cmd.in && cmd.pipe)
 		in_f = IS_PIPE;
 	else if (cmd.in)
 	{
@@ -55,8 +61,8 @@ int	set_in(int i, t_cmd cmd)
 					exit (1);	
 				}
 			}
-			else
-				in_f = herdoc(cmd.in->redirection);
+			if (!cmd.in->next && cmd.in->type == HERE_DOC)
+				in_f = herdoc;
 			cmd.in = cmd.in->next;
 		}
 	}

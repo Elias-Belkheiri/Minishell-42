@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 15:05:31 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/03 15:34:32 by ebelkhei         ###   ########.fr       */
+/*   Updated: 2023/03/04 00:56:31 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define APPEND 1
 # define IN 2
 # define HERE_DOC 3
+# define IS_PIPE -2
 
 typedef struct t_info
 {
@@ -78,10 +79,12 @@ int		env(t_env *envp);
 /// handle cd no arg and with ~ take to home, cd - previous path 
 int		cd(t_cmd cmd, t_env*env);
 int		echo(char **av);
-void	unset(char **key, t_env	*env_vars);
+int		ft_exit(char **arg);
+int		unset(char **key, t_env	*env_vars);
 int		export(t_env *env, char	**add);
-void	call_builtin(t_env *env_var, t_cmd	*cmd);
+int		call_builtin(t_env *env_var, t_cmd	*cmd);
 int		is_builtin(char *cmd);
+int	find_herdoc(t_cmd *cmd);
 
 /*----------utils----------*/
 void	free_env(t_env *env);
@@ -90,10 +93,11 @@ char	*find_path(t_env	*env);
 void	ft_dprintf(char *format, char *str);
 char	**ls_to_arr(t_env *env);
 char	*check_path(char	**path, char	**utils);
-int		set_in(t_cmd cmd);
+int		set_in(int i, t_cmd cmd, int herdoc);
 int		set_out(t_cmd cmd);
 int		herdoc(char *del);
 void	check_pipe(t_pipe *p, int i);
+int		is_alphanum(char *s);
 
 /*---------checking--------*/
 void	check(t_cmd *cmd, t_env *env);
@@ -102,8 +106,8 @@ void	check(t_cmd *cmd, t_env *env);
 void	single_cmd(t_cmd *cmd, t_env *env);
 
 /*-----multiple_command----*/
-void	even_child(int i, int in, int out, t_pipe p);
-void	odd_child(int i, int in, int out, t_pipe p);
+void	even_child(int in, int out, t_pipe p);
+void	odd_child(int in, int out, t_pipe p);
 void	cmd_checker(t_pipe p, t_cmd cmd, int *io, int i);
 void	multiple_cmds(int count, t_cmd *cmd, t_env *env);
 int		ft_cmdsize(t_cmd *lst);

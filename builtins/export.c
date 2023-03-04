@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 15:07:19 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/03 15:36:00 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/03 23:21:32 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,30 @@ int	is_alphanum(char *s)
 
 void	env_var(char *add, t_env *env, int r, t_env *new)
 {
+	char	*tmp2;
 	t_env	*temp;
 
 	if (add[r + 1] != '=')
+	{
 		ft_dprintf("export: `%s': not a valid identifier\n", add);
+		free(new);
+	}
 	else
 	{
 		temp = env;
 		while (temp)
 		{
-			if (!ft_strcmp(ft_substr(add, 0, r), temp->key))
+			tmp2 = ft_substr(add, 0, r);
+			if (!ft_strcmp(tmp2, temp->key))
 			{
-				temp->value = ft_strjoin(temp->value, ft_substr(add, r + 2, ft_strlen(add) - r - 2));
+				free(tmp2);
+				tmp2 = ft_substr(add, r + 2, ft_strlen(add) - r - 2);
+				temp->value = ft_strjoin(temp->value, tmp2);
+				free(tmp2);
+				free(new);
 				break ;
 			}
+			free(tmp2);
 			temp = temp->next;
 		}
 		if (!temp)
@@ -59,8 +69,8 @@ void	env_var(char *add, t_env *env, int r, t_env *new)
 			while (temp->next)
 				temp = temp->next;
 			temp->next = new;
-			new->key = ft_substr(add, 0, r + 1);
-			new->value = ft_substr(add, r + 1, ft_strlen(add) - r);
+			new->key = ft_substr(add, 0, r);
+			new->value = ft_substr(add, r + 2, ft_strlen(add) - r);
 		}
 	}
 }
@@ -106,28 +116,27 @@ void	check_arg(char *add, t_env *env, t_env **exp)
 		new = (t_env *)ft_calloc(1, sizeof(t_env));
 		if (add[r] == '=')
 		{
-			while (temp->next)
+			while (temp && temp->next)
 				temp = temp->next;
-			temp->next = new;
+			if (temp)
+				temp->next = new;
 			new->key = ft_substr(add, 0, r);
 			new->value = ft_substr(add, r + 1, ft_strlen(add) - r);
 			new->next = 0;
 		}
 		else
-		{
 			env_var(add, env, r, new);
-		}
 	}
 }
 
 int	export(t_env *env, char **add)
 {
-	t_env	*exp;
+	// t_env	*exp;
 	// t_env	*temp;
 	int		i;
 
 	i = 1;
-	exp = (t_env *)ft_calloc(1, sizeof(t_env));
+	// exp = (t_env *)ft_calloc(1, sizeof(t_env));
 	// if (!add[1])
 	// {
 	// 	temp = env;
@@ -147,21 +156,8 @@ int	export(t_env *env, char **add)
 	// }
 	while (add && add[i])
 	{
-		check_arg(add[i], env, &exp);
-			LEAKS
+		check_arg(add[i], env, NULL);
 		i++;
 	}
 	return (0);
-	// t_env	*iter;
-
-	
-	// iter = to_add;
-	// while (iter && iter->next)
-	// 	iter = iter->next;
-	// iter->next = 0;
-	// iter = *env;
-	// while (iter && iter->next)
-	// 	iter = iter->next;
-	// iter->next = to_add;
-	// return 0;
 }

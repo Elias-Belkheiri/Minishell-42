@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 22:21:01 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/03 16:14:22 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/04 00:42:13 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,20 +57,26 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-void	call_builtin(t_env *env_var, t_cmd	*cmd)
+int	call_builtin(t_env *env_var, t_cmd	*cmd)
 {
+	int	ex;
+
+	ex = 0;
 	if (!ft_strcmp("echo", cmd->cmd[0]))
-		echo(cmd->cmd);
+		ex = echo(cmd->cmd);
 	else if (!ft_strcmp("cd", cmd->cmd[0]))
-		cd(*cmd, env_var);
+		ex = cd(*cmd, env_var);
 	else if (!ft_strcmp("unset", cmd->cmd[0]))
-		unset(cmd->cmd, env_var);
+		ex = unset(cmd->cmd, env_var);
 	else if (!ft_strcmp("pwd", cmd->cmd[0]))
-		pwd();
+		ex = pwd();
 	else if (!ft_strcmp("env", cmd->cmd[0]))
-		env(env_var);
+		ex = env(env_var);
 	else if (!ft_strcmp("export", cmd->cmd[0]))
-		export(env_var, cmd->cmd);	
+		ex = export(env_var, cmd->cmd);
+		else if (!ft_strcmp("exit", cmd->cmd[0]))
+		ex = ft_exit(cmd->cmd);
+	return (ex);
 }
 
 void	check(t_cmd *cmd, t_env *env)
@@ -96,7 +102,9 @@ void	check(t_cmd *cmd, t_env *env)
 			id = fork();
 			if (!id)
 				single_cmd(cmd, env);
-			waitpid(id, 0, 0);
+			waitpid(id, &(g_global_data.exit_status), 0);
+			if (WIFEXITED(g_global_data.exit_status))
+				g_global_data.exit_status = WEXITSTATUS(g_global_data.exit_status);
 		}
 	}
 	else

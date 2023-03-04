@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 23:14:54 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/03 16:31:31 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/04 00:56:34 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ char	*check_path(char	**path, char	**utils)
 	char	*c;
 
 	i = 0;
-	if (!access(utils[0], F_OK && X_OK))
+	if (ft_strcmp(utils[0], ".") && !access(utils[0], F_OK && X_OK))
 		return (ft_strdup(utils[0]));
 	if (utils[0] && utils[0][0] != '.')
 		c = ft_strjoin(ft_strdup("/"), utils[0]);
 	else
 		c = ft_strdup(utils[0]);
-	while (path[i])
+	while (path[i] && ft_strcmp(utils[0], "."))
 	{
 		temp = ft_strjoin(ft_strdup(path[i]), c);
 		if (!access(temp, F_OK && X_OK))
@@ -47,7 +47,7 @@ char	*check_path(char	**path, char	**utils)
 		free (temp);
 		i++;
 	}
-	if (!path[i])
+	if (!path[i] || !ft_strlen(utils[0]) || !ft_strcmp(utils[0], "."))
 	{
 		ft_dprintf("%s: command not found\n", utils[0]);
 		exit (127);
@@ -60,8 +60,12 @@ void	single_cmd(t_cmd *cmd, t_env *env)
 	char	**path;
 	char	*temp;
 	int		io[2];
+	int		her;
 
-	io[0] = set_in(0, *cmd);
+	dprintf(2, "cmd %p\n" , cmd);
+	her = find_herdoc(cmd);
+	dprintf(2, "cmd %p\n",cmd);
+	io[0] = set_in(0, *cmd, her);
 	if (!cmd->cmd)
 		exit(0);
 	io[1] = set_out(*cmd);
