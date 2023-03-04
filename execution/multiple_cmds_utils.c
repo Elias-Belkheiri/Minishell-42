@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 19:37:34 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/04 16:31:32 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/04 18:10:38 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,24 @@ void	cmd_checker(t_pipe p, t_cmd cmd, int *io, int i)
 	}
 }
 
+int	check_in_files(char	*name)
+{
+	int	in_f;
+	int	acc;
+
+	acc = access(name, F_OK);
+	in_f = open(name, O_RDONLY);
+	if (acc == -1 || in_f == -1)
+	{
+		if (acc == -1)
+			ft_dprintf("%s: No such file or directory\n", name);
+		else
+			ft_dprintf("%s: Permission denied\n", name);
+		exit (1);	
+	}
+	return (in_f);
+}
+
 int	set_in(int i, t_cmd cmd, int herdoc)
 {
 	int	in_f;
@@ -52,14 +70,7 @@ int	set_in(int i, t_cmd cmd, int herdoc)
 		while (cmd.in)
 		{
 			if (cmd.in->type == IN)
-			{
-				in_f = open(cmd.in->redirection, O_RDONLY);
-				if (in_f == -1)
-				{
-					ft_dprintf("%s: No such file or directory\n", cmd.in->redirection);
-					exit (1);	
-				}
-			}
+				in_f = check_in_files(cmd.in->redirection);
 			if (!cmd.in->next && cmd.in->type == HERE_DOC)
 				in_f = herdoc;
 			cmd.in = cmd.in->next;
@@ -67,7 +78,6 @@ int	set_in(int i, t_cmd cmd, int herdoc)
 	}
 	else
 		in_f = 0;
-	// dprintf(2, "her %d\n", in_f);
 	return (in_f);
 }
 
@@ -85,6 +95,11 @@ int	set_out(t_cmd cmd)
 				out_f = open(cmd.out->redirection, O_RDWR | O_CREAT | O_TRUNC, 0644);
 			else
 				out_f = open(cmd.out->redirection, O_RDWR | O_CREAT | O_APPEND, 0644);
+			if (out_f == -1)
+			{
+				ft_dprintf("%s: Permission denied\n", cmd.out->redirection);
+				exit (1);
+			}
 			cmd.out = cmd.out->next;
 		}
 	}

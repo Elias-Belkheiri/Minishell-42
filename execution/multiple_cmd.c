@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:05:18 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/04 16:11:59 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/04 23:16:50 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,18 @@ int	ft_wait(int *id, int i, t_pipe *p)
 {
 	int	status;
 
-	close(p->p1[0]);
-	close(p->p1[1]);
-	close(p->p2[0]);
-	close(p->p2[1]);
+	if (p)
+	{
+		close(p->p1[0]);
+		close(p->p1[1]);
+		close(p->p2[0]);
+		close(p->p2[1]);
+	}
 	waitpid(id[i], &status, 0);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		return(WTERMSIG(status) + 128);
 	return (1);
 }
 
@@ -107,14 +112,27 @@ void	child_process(t_cmd cmd, t_env *env, int i, t_pipe p, int her)
 	execve(temp, cmd.cmd, ls_to_arr(env));
 }
 
-void	multiple_cmds(int count, t_cmd *cmd, t_env *env)
+void	multiple_cmds(int count, t_cmd *cmd, t_env **env)
 {
 	pid_t	id[count];
 	t_pipe	p;
 	int		i;
 	int		cmdsize;
-	int		her;
-
+	int		her[count];
+	t_cmd *temp;
+	
+	temp = cmd;
+	i = 0;
+	while (temp && i < count){	
+		her[i] = find_herdoc(temp);
+		if (her[i] == -1)
+		{
+			g_global_data.exit_status = 1;
+			return;
+		}
+		temp = temp->next;
+		i++;
+	}
 	i = 0;
 	// dprintf(2, "before %p\n", cmd->in);
 	cmdsize = ft_cmdsize(cmd);
@@ -123,17 +141,18 @@ void	multiple_cmds(int count, t_cmd *cmd, t_env *env)
 	pipe(p.p2);
 	while (cmd && i < count)
 	{
-		her = find_herdoc(cmd);
 		id[i] = fork();
 		if (!id[i])
 		{
+			signal(SIGQUIT, SIG_DFL);
+			signal(SIGINT, SIG_DFL);		
 			if (cmd->cmd && is_builtin(cmd->cmd[0]))
 			{
 				g_global_data.exit_status = call_builtin(env, cmd);
 				exit(g_global_data.exit_status);
 			}
 			else
-				child_process(*cmd, env, i, p, her);
+				child_process(*cmd, *env, i, p, her[i]);
 		}
 		check_pipe(&p, i);
 		i++;

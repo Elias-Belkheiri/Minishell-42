@@ -6,13 +6,15 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 21:59:21 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/03 23:27:01 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/04 22:30:18 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	unset(char **key, t_env	*env_vars)
+// void	del()
+
+int	unset(char **key, t_env	**env_vars)
 {
 	t_env	*temp;
 	t_env	*hold;
@@ -22,7 +24,7 @@ int	unset(char **key, t_env	*env_vars)
 
 	i = 1;
 	ex = 0;
-	hold = env_vars;
+	hold = *env_vars;
 	while (key[i])
 	{
 		r = is_alphanum(key[i]);
@@ -31,18 +33,18 @@ int	unset(char **key, t_env	*env_vars)
 			ft_dprintf("unset: `%s': not a valid identifier\n", key[i]);
 			ex = 1;
 		}
-		while (r == -1 && env_vars)
+		temp = 0;
+		while (r == -1 && hold)
 		{
-			if (!ft_strcmp(env_vars->next->key, key[i]))
+			if (hold && !ft_strcmp(hold->key, key[i]))
 			{
-				temp = env_vars->next;
-				env_vars->next = temp->next;
-				free_env(temp);
+				ft_lstdel_2(temp, hold, env_vars);
 				break ;
 			}
-			env_vars = env_vars->next;
+			temp = hold;
+			hold = hold->next;
 		}
-		env_vars = hold;
+		hold = *env_vars;
 		i++;
 	}
 	return (ex);

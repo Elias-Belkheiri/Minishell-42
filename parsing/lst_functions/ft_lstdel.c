@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 14:54:49 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/03 15:19:58 by ebelkhei         ###   ########.fr       */
+/*   Updated: 2023/03/04 22:28:09 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,24 @@ void	ft_lstdel(t_token *bef, t_token **current, t_token **tokens)
 		ft_lstdelone(*current);
 		bef->next = tmp;
 		*current = tmp;
+	}
+}
+
+void	ft_lstdel_2(t_env *bef, t_env *current, t_env **tokens)
+{
+	t_env	*tmp;
+
+	if (!bef)
+	{
+		*tokens = current->next;
+		free_env(current);
+		current = NULL;
+	}
+	else
+	{
+		tmp = current->next;
+		free_env(current);
+		bef->next = tmp;
+		current = tmp;
 	}
 }

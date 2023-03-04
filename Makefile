@@ -1,6 +1,6 @@
 SRCS	= $(wildcard ./builtins/*.c) main.c $(wildcard ./execution/*.c) $(wildcard ./parsing/*.c) $(wildcard ./parsing/tools/*.c) $(wildcard ./parsing/lst_functions/*.c)
 
-CC		= cc
+CC		= cc 
 
 CFLAGS	= -Wall -Wextra -Werror -lreadline 
 
@@ -11,6 +11,7 @@ MK_FILE	= Makefile
 all		: $(NAME)
 
 $(NAME) : $(SRCS) $(MK_FILE)
+		# stty -echoctl
 		$(CC) $(CFLAGS) $(SRCS) -o $(NAME)
 
 clean	:
@@ -19,4 +20,4 @@ clean	:
 fclean	:
 		rm -rf $(NAME)
 
-re		: fclean re
+re		: fclean all

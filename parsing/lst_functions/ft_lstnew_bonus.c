@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 15:27:39 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/03 15:20:53 by ebelkhei         ###   ########.fr       */
+/*   Updated: 2023/03/04 20:58:15 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,18 @@ t_redirection	*ft_lstnew_4(char *out, int type)
 	ptr->redirection = out;
 	ptr->should_expand = 0;
 	ptr->type = type;
+	ptr->next = NULL;
+	return (ptr);
+}
+
+t_exp	*ft_lstnew_5(char *key)
+{
+	t_exp	*ptr;
+
+	ptr = malloc(sizeof(t_exp));
+	if (!ptr)
+		return (NULL);
+	ptr->key = key;
 	ptr->next = NULL;
 	return (ptr);
 }

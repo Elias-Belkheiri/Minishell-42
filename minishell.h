@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 11:29:33 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/04 16:43:03 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/04 22:28:20 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,9 @@ void	*ft_calloc(size_t	n, size_t size);
 char	*ft_strnstr(const char	*big, const char	*lil, size_t	len);
 void	sig_int_handler(int a);
 void	sig_quit_handler(int a);
+t_exp	*ft_lstnew_5(char *key);
+void	ft_lstadd_back_5(t_exp **lst, t_exp *new);
+void	ft_lstdel_2(t_env *bef, t_env *current, t_env **tokens);
 // int		ft_lstsize(t_token *lst);
 // t_token	*ft_lstlast(t_token *lst);
 // void	ft_lstadd_front(t_token **lst, t_token *new);

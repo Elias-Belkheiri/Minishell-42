@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 16:37:07 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/04 16:49:56 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/04 23:37:23 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,9 @@
 void	sig_int_handler(int a)
 {
 	(void)a;
-	printf("LOL2\n");
-	g_global_data.exit_status = 1;
-}
-
-void	sig_quit_handler(int a)
-{
-	(void)a;
-	printf("LOL\n");
-	exit(g_global_data.exit_status);
+	// add replace line
+	// write(STDOUT_FILENO,"\b",1);
+	rl_on_new_line();
+	rl_redisplay();
+	// g_global_data.exit_status = 1;
 }

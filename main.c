@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 11:32:23 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/04 16:51:01 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/04 22:46:58 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int argc, char *argv[], char *envp[])
 	g_global_data.exit_status = 0;
 	if (!parse_env(envp, &environment))
 		write(2, "Invalid environment\n", 21);
-	signal(SIGQUIT, sig_quit_handler);
+	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sig_int_handler);
 	while (1)
 	{
@@ -42,7 +42,7 @@ int	main(int argc, char *argv[], char *envp[])
 			if (check_syntax_errors(tokens))
 			{
 				parse_cmds(&cmds, &tokens);
-				check(cmds, environment);
+				check(cmds, &environment);
 				clear_cmds(&cmds);
 			}
 			else

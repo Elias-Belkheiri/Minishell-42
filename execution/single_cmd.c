@@ -3,14 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   single_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 23:14:54 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/04 10:42:17 by ebelkhei         ###   ########.fr       */
+/*   Updated: 2023/03/04 20:33:38 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char	*my_strchr(const char *str, int c)
+{
+	size_t	i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+	{
+		if (str[i] == (unsigned char)c)
+			return ((char *)str + i);
+		i++;
+	}
+	if (str[i] == (unsigned char)c)
+		return ((char *)(str + i));
+	return (0);
+}
 
 void	fd(int *io)
 {
@@ -33,7 +51,8 @@ char	*check_path(char	**path, char	**utils)
 	char	*c;
 
 	i = 0;
-	if (ft_strcmp(utils[0], ".") && !access(utils[0], F_OK && X_OK))
+	// WORK WITH UR STRCHR !!!!!!!!!!!!!!!!!!!!
+	if (ft_strcmp(utils[0], ".") && my_strchr(utils[0], '/') && !access(utils[0], F_OK && X_OK))
 		return (ft_strdup(utils[0]));
 	if (utils[0] && utils[0][0] != '.')
 		c = ft_strjoin(ft_strdup("/"), utils[0]);
@@ -55,6 +74,19 @@ char	*check_path(char	**path, char	**utils)
 	return (temp);
 }
 
+void	check_if_dir(char	*name)
+{
+	DIR		*dir;
+	
+	dir = opendir(name);
+	if (dir)
+	{
+		ft_dprintf("%s: is a directory\n", name);
+		g_global_data.exit_status = 126;
+		exit(g_global_data.exit_status);
+	}
+}
+
 void	single_cmd(t_cmd *cmd, t_env *env)
 {
 	char	**path;
@@ -62,12 +94,12 @@ void	single_cmd(t_cmd *cmd, t_env *env)
 	int		io[2];
 	int		her;
 
-	// dprintf(2, "cmd %p\n" , cmd);
+	if (my_strchr(cmd->cmd[0], '/'))
+		check_if_dir(cmd->cmd[0]);
 	her = find_herdoc(cmd);
-	// dprintf(2, "cmd %p\n",cmd);
 	io[0] = set_in(0, *cmd, her);
-	if (!cmd->cmd)
-		exit(0);
+	// if (!cmd->cmd)
+	// 	exit(0);
 	io[1] = set_out(*cmd);
 	path = ft_split(find_path(env), ':');
 	if (!path)

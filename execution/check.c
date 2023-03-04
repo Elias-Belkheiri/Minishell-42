@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 22:21:01 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/04 00:42:13 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/04 23:04:30 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-int	call_builtin(t_env *env_var, t_cmd	*cmd)
+int	call_builtin(t_env **env_var, t_cmd	*cmd)
 {
 	int	ex;
 
@@ -65,13 +65,13 @@ int	call_builtin(t_env *env_var, t_cmd	*cmd)
 	if (!ft_strcmp("echo", cmd->cmd[0]))
 		ex = echo(cmd->cmd);
 	else if (!ft_strcmp("cd", cmd->cmd[0]))
-		ex = cd(*cmd, env_var);
+		ex = cd(*cmd, *env_var);
 	else if (!ft_strcmp("unset", cmd->cmd[0]))
 		ex = unset(cmd->cmd, env_var);
 	else if (!ft_strcmp("pwd", cmd->cmd[0]))
 		ex = pwd();
 	else if (!ft_strcmp("env", cmd->cmd[0]))
-		ex = env(env_var);
+		ex = env(*env_var);
 	else if (!ft_strcmp("export", cmd->cmd[0]))
 		ex = export(env_var, cmd->cmd);
 		else if (!ft_strcmp("exit", cmd->cmd[0]))
@@ -79,32 +79,27 @@ int	call_builtin(t_env *env_var, t_cmd	*cmd)
 	return (ex);
 }
 
-void	check(t_cmd *cmd, t_env *env)
+void	check(t_cmd *cmd, t_env **env)
 {
 	int		i;
 	pid_t	id;
 
 	i = 0;
-	// while (cmd->cmd[i])
-	// {
-	// 	printf("%s", cmd->cmd[i]);
-	// 	i++;
-	// }
 	i = ft_cmdsize(cmd);
 	if (!cmd->next)
 	{
-		// printf("here%s\n", cmd->cmd[1]);
 		if (cmd->cmd && cmd->cmd[0] && is_builtin(cmd->cmd[0]))
 			call_builtin(env, cmd);
 		else
 		{
-			// cmd->cmd[0] = join("/", cmd->cmd[0]);
 			id = fork();
 			if (!id)
-				single_cmd(cmd, env);
-			waitpid(id, &(g_global_data.exit_status), 0);
-			if (WIFEXITED(g_global_data.exit_status))
-				g_global_data.exit_status = WEXITSTATUS(g_global_data.exit_status);
+			{
+				signal(SIGQUIT, SIG_DFL);
+				signal(SIGINT, SIG_DFL);
+				single_cmd(cmd, *env);
+			}
+			g_global_data.exit_status = ft_wait(&id, 0, 0);
 		}
 	}
 	else
