@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 10:07:59 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/01 16:53:16 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/04 11:16:43 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_putendl_fd(char *s, char *str, int fd)
 		write (fd, "\n", 1);
 		return (0);
 	}
-	if (*str == '/')
+	if (str && *str == '/')
 		str++;
 	while (*s)
 	{

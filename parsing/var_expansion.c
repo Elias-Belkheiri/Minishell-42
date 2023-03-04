@@ -6,7 +6,7 @@
 /*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:59:11 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/03 15:33:09 by ebelkhei         ###   ########.fr       */
+/*   Updated: 2023/03/04 10:51:31 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ void	ignore_exp_here_doc(t_token *tok)
 		{
 			if (tok->next && tok->next->type == SPACE)
 			{
-				if(tok->next->next)
+				if(tok->next->next && tok->next->next->type != PIPE && tok->next->next->type != OPERATOR)
 				{
 					if (tok->next->next->type == WORD)
 						tok->next->next->type = SINGLE_EXPAND;
@@ -159,7 +159,7 @@ void	ignore_exp_here_doc(t_token *tok)
 						tok->next->next->type = SINGLE;
 				}
 			}
-			else if (tok->next)
+			else if (tok->next && tok->next->type != PIPE && tok->next->type != OPERATOR)
 			{
 				if (tok->next->type == WORD)
 					tok->next->type = SINGLE_EXPAND;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 23:14:54 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/04 00:56:34 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/04 10:42:17 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ void	single_cmd(t_cmd *cmd, t_env *env)
 	int		io[2];
 	int		her;
 
-	dprintf(2, "cmd %p\n" , cmd);
+	// dprintf(2, "cmd %p\n" , cmd);
 	her = find_herdoc(cmd);
-	dprintf(2, "cmd %p\n",cmd);
+	// dprintf(2, "cmd %p\n",cmd);
 	io[0] = set_in(0, *cmd, her);
 	if (!cmd->cmd)
 		exit(0);
