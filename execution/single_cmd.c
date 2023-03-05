@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 23:14:54 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/04 20:33:38 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/05 11:08:18 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,20 @@ void	check_if_dir(char	*name)
 	}
 }
 
+int	check_for_ambiguous_redirect(t_redirection *redir)
+{
+	int	n;
+
+	while (redir)
+	{
+		n = ft_strlen(redir->redirection) - 1;
+		if (ft_strchr(redir->redirection, ' ') && redir->redirection[n] != ' ')
+			return (0);
+		redir = redir->next;
+	}
+	return(1);
+}
+
 void	single_cmd(t_cmd *cmd, t_env *env)
 {
 	char	**path;
@@ -96,7 +110,7 @@ void	single_cmd(t_cmd *cmd, t_env *env)
 
 	if (my_strchr(cmd->cmd[0], '/'))
 		check_if_dir(cmd->cmd[0]);
-	her = find_herdoc(cmd);
+	her = find_herdoc(cmd, env);
 	io[0] = set_in(0, *cmd, her);
 	// if (!cmd->cmd)
 	// 	exit(0);

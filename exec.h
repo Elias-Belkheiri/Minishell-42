@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 15:05:31 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/04 23:03:08 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/05 11:11:39 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int		unset(char **key, t_env	**env_vars);
 int		export(t_env **env, char	**add);
 int		call_builtin(t_env **env_var, t_cmd	*cmd);
 int		is_builtin(char *cmd);
-int		find_herdoc(t_cmd *cmd);
+int		find_herdoc(t_cmd *cmd, t_env *env);
 
 /*----------utils----------*/
 void	free_env(t_env *env);
@@ -106,7 +106,7 @@ char	**ls_to_arr(t_env *env);
 char	*check_path(char	**path, char	**utils);
 int		set_in(int i, t_cmd cmd, int herdoc);
 int		set_out(t_cmd cmd);
-int		herdoc(char *del);
+int		herdoc(char *del, t_env *env, int should_expand);
 void	check_pipe(t_pipe *p, int i);
 int		is_alphanum(char *s);
 int		ft_wait(int *id, int i, t_pipe *p);

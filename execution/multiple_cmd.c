@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multiple_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:05:18 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/04 23:16:50 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/05 11:08:57 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	multiple_cmds(int count, t_cmd *cmd, t_env **env)
 	temp = cmd;
 	i = 0;
 	while (temp && i < count){	
-		her[i] = find_herdoc(temp);
+		her[i] = find_herdoc(temp, *env);
 		if (her[i] == -1)
 		{
 			g_global_data.exit_status = 1;

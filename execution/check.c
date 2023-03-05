@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 22:21:01 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/04 23:04:30 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/05 13:01:41 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,9 @@ int	call_builtin(t_env **env_var, t_cmd	*cmd)
 	return (ex);
 }
 
+// If The redirections are tailed withe spaces, they must be deleted except the last one.
+// << l
+// << "$USER" cat | cat
 void	check(t_cmd *cmd, t_env **env)
 {
 	int		i;
@@ -88,6 +91,11 @@ void	check(t_cmd *cmd, t_env **env)
 	i = ft_cmdsize(cmd);
 	if (!cmd->next)
 	{
+		if (!check_for_ambiguous_redirect(cmd->in) || !check_for_ambiguous_redirect(cmd->out))
+		{
+			ft_putendl_fd("ambiguous redirect", NULL, 2);
+			return ;
+		}
 		if (cmd->cmd && cmd->cmd[0] && is_builtin(cmd->cmd[0]))
 			call_builtin(env, cmd);
 		else

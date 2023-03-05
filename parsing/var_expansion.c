@@ -6,7 +6,7 @@
 /*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:59:11 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/04 10:51:31 by ebelkhei         ###   ########.fr       */
+/*   Updated: 2023/03/05 11:42:05 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,30 +55,32 @@ int	must_expand(int a, int b)
 	return (0);
 }
 
-void	var_expansion(t_env *env, t_token *tok)
+void	var_expansion(t_env *env, char **tok)
 {
 	int		i;
 	int		j;
 	char	*tmp[3];
 	char	*expansion;
+	char	*content;
 
 	i = 0;
 	tmp[0] = NULL;
 	tmp[2] = NULL;
-	while (tok->content[i] && !must_expand(tok->content[i], tok->content[i + 1]))
+	content = *tok;
+	while (content[i] && !must_expand(content[i], content[i + 1]))
 		i++;
-	if (!tok->content[i] || !tok->content[i + 1])
+	if (!content[i] || !content[i + 1])
 		return ;
 	if (i)
-		tmp[0] = ft_substr(tok->content, 0, i);
-	j = i + 1 + check_digits(tok->content + i + 1);
-	expansion = get_expansion(env, ft_substr(tok->content, i + 1, j - i - 1));
+		tmp[0] = ft_substr(content, 0, i);
+	j = i + 1 + check_digits(content + i + 1);
+	expansion = get_expansion(env, ft_substr(content, i + 1, j - i - 1));
 	tmp[1] = ft_strjoin(tmp[0], expansion);
 	free(expansion);
-	if (ft_strlen(tok->content + j))
-		tmp[2] = ft_substr(tok->content, j, ft_strlen(tok->content + j));
-	free(tok->content);
-	tok->content = ft_strjoin(tmp[1], tmp[2]);
+	if (ft_strlen(content + j))
+		tmp[2] = ft_substr(content, j, ft_strlen(content + j));
+	free(content);
+	*tok = ft_strjoin(tmp[1], tmp[2]);
 	ft_free(tmp[1], tmp[2]);
 	var_expansion(env, tok);
 }
@@ -115,7 +117,7 @@ void	check_expansion(t_token *token, t_env *env)
 	if (token->type == HYPHEN)
 			hyphen_expansion(token, env);
 	if ((token->type == DOUBLE || token->type == WORD) && ft_strlen(token->content) > 1)
-		var_expansion(env, token);
+		var_expansion(env, &token->content);
 }
 
 int	ft_join(t_token **token, t_token *bef)

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 15:09:16 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/04 23:20:40 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/05 11:12:17 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	herdoc(char *del)
+int	herdoc(char *del, t_env *env, int should_expand)
 {
 	int p[2];
 	pid_t	id;
@@ -35,6 +35,8 @@ int	herdoc(char *del)
 				free (hold);
 				break;
 			}
+			if (should_expand)
+				var_expansion(env, &hold);
 			write (p[1], hold, ft_strlen(hold));
 			write(p[1] , "\n", 1);
 			free (hold);
@@ -51,7 +53,7 @@ int	herdoc(char *del)
 	return (p[0]);
 }
 
-int	find_herdoc(t_cmd *cmd)
+int	find_herdoc(t_cmd *cmd, t_env *env)
 {
 	int				her;
 	t_redirection	*temp;
@@ -61,7 +63,7 @@ int	find_herdoc(t_cmd *cmd)
 	while (temp)
 	{
 		if (temp->type == HERE_DOC)
-			her = herdoc(temp->redirection);
+			her = herdoc(temp->redirection, env, temp->should_expand);
 		if (her == -1)
 			return (her);
 		temp = temp->next;
