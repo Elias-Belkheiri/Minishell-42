@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 23:14:54 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/05 11:08:18 by ebelkhei         ###   ########.fr       */
+/*   Updated: 2023/03/05 18:17:51 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,24 @@ char	*check_path(char	**path, char	**utils)
 	char	*c;
 
 	i = 0;
-	// WORK WITH UR STRCHR !!!!!!!!!!!!!!!!!!!!
-	if (ft_strcmp(utils[0], ".") && my_strchr(utils[0], '/') && !access(utils[0], F_OK && X_OK))
-		return (ft_strdup(utils[0]));
+	if (!utils)
+		return (0);	
+	if (ft_strcmp(utils[0], ".") && my_strchr(utils[0], '/') && !access(utils[0], F_OK))
+	{
+		if (!access(utils[0], X_OK))
+			return (ft_strdup(utils[0]));
+		else
+		{
+			ft_dprintf("%s: Permission denied\n", utils[0]);
+			exit(126);
+		}
+	}
 	if (utils[0] && utils[0][0] != '.')
 		c = ft_strjoin(ft_strdup("/"), utils[0]);
 	else
+	{
 		c = ft_strdup(utils[0]);
+	}
 	while (path[i] && ft_strcmp(utils[0], "."))
 	{
 		temp = ft_strjoin(ft_strdup(path[i]), c);
@@ -108,13 +119,15 @@ void	single_cmd(t_cmd *cmd, t_env *env)
 	int		io[2];
 	int		her;
 
-	if (my_strchr(cmd->cmd[0], '/'))
+	if (cmd->cmd && my_strchr(cmd->cmd[0], '/'))
 		check_if_dir(cmd->cmd[0]);
 	her = find_herdoc(cmd, env);
 	io[0] = set_in(0, *cmd, her);
-	// if (!cmd->cmd)
-	// 	exit(0);
+	if (!cmd->cmd)
+		exit(0);
 	io[1] = set_out(*cmd);
+	if (io[1] == -1)
+		exit (1);
 	path = ft_split(find_path(env), ':');
 	if (!path)
 	{

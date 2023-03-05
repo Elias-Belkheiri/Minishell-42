@@ -1,0 +1,14 @@
+Makefile
+README.md
+a.out
+builtins
+driss
+exec.h
+execution
+ls
+main.c
+meh
+minishell
+minishell.h
+parsing
+test.c

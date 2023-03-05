@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 19:21:49 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/02 16:42:53 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/05 17:48:05 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,6 @@ void	ft_dprintf(char *format, char *str)
 	dup2(temp, 1);
 	close(temp);
 }
-
-// char	*find_path(char	**env)
-// {
-// 	char	*path;
-// 	int		i;
-
-// 	i = 0;
-// 	while (env[i])
-// 	{
-// 		path = ft_strnstr(env[i], "PATH=", 5);
-// 		if (path)
-// 			return (path + 5);
-// 		i++;
-// 	}
-// 	return (0);
-// }
 
 void	free_env(t_env *env)
 {

@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 19:37:34 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/04 18:10:38 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/05 17:47:01 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,9 @@ void	cmd_checker(t_pipe p, t_cmd cmd, int *io, int i)
 {
 	(void)cmd;
 	if (i % 2 == 0)
-	{
 		even_child(io[0], io[1], p);
-	}
 	else
-	{
 		odd_child(io[0], io[1], p);
-	}
 }
 
 int	check_in_files(char	*name)
@@ -54,7 +50,7 @@ int	check_in_files(char	*name)
 			ft_dprintf("%s: No such file or directory\n", name);
 		else
 			ft_dprintf("%s: Permission denied\n", name);
-		exit (1);	
+		return (-1);	
 	}
 	return (in_f);
 }
@@ -98,7 +94,7 @@ int	set_out(t_cmd cmd)
 			if (out_f == -1)
 			{
 				ft_dprintf("%s: Permission denied\n", cmd.out->redirection);
-				exit (1);
+				return (-1);
 			}
 			cmd.out = cmd.out->next;
 		}

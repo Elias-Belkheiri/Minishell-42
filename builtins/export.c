@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 15:07:19 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/04 22:41:29 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/05 19:36:30 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,22 +91,39 @@ void	exported_vars(char *add, t_exp **exp)
 void	check_arg(int r, char *add, t_env **env)
 {
 	t_env	*temp;
+	char	*hold;
+	char	*key;
 	t_env	*new;
 
 	temp = *env;
 	new = (t_env *)ft_calloc(1, sizeof(t_env));
 	if (add[r] == '=')
 	{
-		printf("here\n");
+		key = ft_substr(add, 0, r);
 		while (temp && temp->next)
+		{
+			if (!ft_strcmp(key, temp->next->key))
+			{
+				free (temp->next->value);
+				hold = ft_substr(add, r + 1, ft_strlen(add) - r);
+				temp->next->value = to_trim(hold, " ");
+				free(hold);
+				free(key);
+				free(new);
+				return ;
+			}
 			temp = temp->next;
+		}
+		free(key);
 		if (temp)
 			temp->next = new;
 		else if (!(*env))
 			(*env) = new;
 		new->key = ft_substr(add, 0, r);
-		new->value = ft_substr(add, r + 1, ft_strlen(add) - r);
+		hold = ft_substr(add, r + 1, ft_strlen(add) - r);
+		new->value = to_trim(hold, " ");
 		new->next = 0;
+		free(hold);
 	}
 	else
 		env_var(add, env, r, new);

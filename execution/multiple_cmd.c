@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multiple_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:05:18 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/05 11:08:57 by ebelkhei         ###   ########.fr       */
+/*   Updated: 2023/03/05 17:51:23 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,10 @@ void	child_process(t_cmd cmd, t_env *env, int i, t_pipe p, int her)
 	char	*temp;
 	int		io[2];
 
-	// dprintf(2, "cmd in 1 %p\n", cmd.in);
 	io[0] = set_in(i, cmd, her);
 	io[1] = set_out(cmd);
+	if (io[1] == -1)
+		exit (1);
 	cmd_checker(p, cmd, io, i);
 	path = ft_split(find_path(env), ':');
 	if (!path)
@@ -120,10 +121,12 @@ void	multiple_cmds(int count, t_cmd *cmd, t_env **env)
 	int		cmdsize;
 	int		her[count];
 	t_cmd *temp;
+	int	io[2];
 	
 	temp = cmd;
 	i = 0;
-	while (temp && i < count){	
+	while (temp && i < count)
+	{	
 		her[i] = find_herdoc(temp, *env);
 		if (her[i] == -1)
 		{
@@ -134,9 +137,7 @@ void	multiple_cmds(int count, t_cmd *cmd, t_env **env)
 		i++;
 	}
 	i = 0;
-	// dprintf(2, "before %p\n", cmd->in);
 	cmdsize = ft_cmdsize(cmd);
-	// dprintf(2, "after %p\n", cmd->in);
 	pipe(p.p1);
 	pipe(p.p2);
 	while (cmd && i < count)
@@ -148,6 +149,11 @@ void	multiple_cmds(int count, t_cmd *cmd, t_env **env)
 			signal(SIGINT, SIG_DFL);		
 			if (cmd->cmd && is_builtin(cmd->cmd[0]))
 			{
+				io[0] = set_in(i, *cmd, her[i]);
+				io[1] = set_out(*cmd);
+				if (io[1] == -1)
+					exit (1);
+				cmd_checker(p, *cmd, io, i);
 				g_global_data.exit_status = call_builtin(env, cmd);
 				exit(g_global_data.exit_status);
 			}

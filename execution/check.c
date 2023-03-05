@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 22:21:01 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/05 13:01:41 by ebelkhei         ###   ########.fr       */
+/*   Updated: 2023/03/05 18:06:00 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,18 @@ int	call_builtin(t_env **env_var, t_cmd	*cmd)
 // If The redirections are tailed withe spaces, they must be deleted except the last one.
 // << l
 // << "$USER" cat | cat
+
 void	check(t_cmd *cmd, t_env **env)
 {
 	int		i;
+	int		temp;
 	pid_t	id;
+	int		io[2];
 
 	i = 0;
+	temp = dup(STDOUT_FILENO);
 	i = ft_cmdsize(cmd);
-	if (!cmd->next)
+	if (cmd && !cmd->next)
 	{
 		if (!check_for_ambiguous_redirect(cmd->in) || !check_for_ambiguous_redirect(cmd->out))
 		{
@@ -97,7 +101,25 @@ void	check(t_cmd *cmd, t_env **env)
 			return ;
 		}
 		if (cmd->cmd && cmd->cmd[0] && is_builtin(cmd->cmd[0]))
-			call_builtin(env, cmd);
+		{
+			io[0] = set_in(0, *cmd, 0);
+			io[1] = set_out(*cmd);
+			if (io[1] == -1)
+			{
+				g_global_data.exit_status = 1;
+				return ;
+			}
+			if (io[1] != 1)
+			{
+				dup2(io[1], 1);
+				close(io[1]);	
+			}
+			g_global_data.exit_status = call_builtin(env, cmd);
+			dup2(temp, 1);
+			close(temp);
+			if (io[0])
+				close(io[0]);
+		}
 		else
 		{
 			id = fork();
