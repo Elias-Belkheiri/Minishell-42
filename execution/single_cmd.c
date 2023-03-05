@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 23:14:54 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/05 18:17:51 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/06 00:27:19 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,10 @@ void	check_if_dir(char	*name)
 	{
 		ft_dprintf("%s: is a directory\n", name);
 		g_global_data.exit_status = 126;
+		closedir(dir);
 		exit(g_global_data.exit_status);
 	}
+	closedir(dir);
 }
 
 int	check_for_ambiguous_redirect(t_redirection *redir)
@@ -126,7 +128,7 @@ void	single_cmd(t_cmd *cmd, t_env *env)
 	if (!cmd->cmd)
 		exit(0);
 	io[1] = set_out(*cmd);
-	if (io[1] == -1)
+	if (io[0] == -1 || io[1] == -1)
 		exit (1);
 	path = ft_split(find_path(env), ':');
 	if (!path)

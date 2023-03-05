@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 22:21:01 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/05 18:06:00 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/05 20:48:15 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	check(t_cmd *cmd, t_env **env)
 		{
 			io[0] = set_in(0, *cmd, 0);
 			io[1] = set_out(*cmd);
-			if (io[1] == -1)
+			if (io[0] == -1 || io[1] == -1)
 			{
 				g_global_data.exit_status = 1;
 				return ;
