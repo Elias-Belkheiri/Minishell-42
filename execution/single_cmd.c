@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 23:14:54 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/06 00:27:19 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/06 13:50:59 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,18 +100,21 @@ void	check_if_dir(char	*name)
 	closedir(dir);
 }
 
-int	check_for_ambiguous_redirect(t_redirection *redir)
+int	check_for_ambiguous_redirect(t_token *token)
 {
 	int	n;
 
-	while (redir)
+	n = ft_strlen(token->content) - 1;
+	if (token->expanded)
 	{
-		n = ft_strlen(redir->redirection) - 1;
-		if (ft_strchr(redir->redirection, ' ') && redir->redirection[n] != ' ')
-			return (0);
-		redir = redir->next;
+		if (ft_strchr(token->content, ' ') && token->content[n] != ' ')
+		{
+			ft_putendl_fd("ambiguous redirect", NULL, 2);
+			g_global_data.exit_status = 1;
+			return (1);
+		}
 	}
-	return(1);
+	return (0);
 }
 
 void	single_cmd(t_cmd *cmd, t_env *env)

@@ -6,7 +6,7 @@
 /*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 15:05:31 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/05 11:11:39 by ebelkhei         ###   ########.fr       */
+/*   Updated: 2023/03/06 13:30:51 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct t_token
 {
 	char			*content;
 	int				type;
+	int				expanded;
 	struct t_token	*next;
 }	t_token;
 

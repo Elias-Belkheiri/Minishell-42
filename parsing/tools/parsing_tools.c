@@ -6,7 +6,7 @@
 /*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 16:35:45 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/05 12:54:56 by ebelkhei         ###   ########.fr       */
+/*   Updated: 2023/03/06 13:44:54 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	set_operator(t_token *token, t_redirection **redirection, int type)
 
 void	is_operator(t_token *token, t_cmd *cmd)
 {
+	if (token->next && check_for_ambiguous_redirect(token->next))
+		return ;
 	if (!ft_strcmp(token->content, "<<"))
 		set_operator(token->next, &cmd->in, HERE_DOC);
 	else if (*(token->content) == '<')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_expansion.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:59:11 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/05 20:41:52 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/06 13:52:19 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,11 @@ void	check_expansion(t_token *token, t_env *env)
 	if (token->type == HYPHEN)
 			hyphen_expansion(token, env);
 	if ((token->type == DOUBLE || token->type == WORD) && ft_strlen(token->content) > 1)
+	{
+		if (*token->content == '$')
+			token->expanded = 1;
 		var_expansion(env, &token->content);
+	}
 }
 
 int	ft_join(t_token **token, t_token *bef)
@@ -141,32 +145,16 @@ void	ignore_exp_here_doc(t_token *tok)
 	while (tok)
 	{
 		if (ft_strlen(tok->content) == 1 && *tok->content == '$')
-		{
-			if (tok->next && (tok->next->type == DOUBLE || tok->next->type == SINGLE))
-			{
-				free(tok->content);
-				tok->content = ft_strdup("");
-			}
-		}
+			tool_1(tok);
 		else if (ft_strlen(tok->content) == 2 && !ft_strcmp(tok->content, "<<"))
 		{
 			if (tok->next && tok->next->type == SPACE)
 			{
 				if(tok->next->next && tok->next->next->type != PIPE && tok->next->next->type != OPERATOR)
-				{
-					if (tok->next->next->type == WORD)
-						tok->next->next->type = SINGLE_EXPAND;
-					else
-						tok->next->next->type = SINGLE;
-				}
+					tool_2(tok->next->next);
 			}
 			else if (tok->next && tok->next->type != PIPE && tok->next->type != OPERATOR)
-			{
-				if (tok->next->type == WORD)
-					tok->next->type = SINGLE_EXPAND;
-				else
-					tok->next->type = SINGLE;
-			}
+				tool_2(tok->next);
 		}
 		tok = tok->next;
 	}

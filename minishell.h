@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 11:29:33 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/05 19:26:17 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/06 13:37:35 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,9 +149,11 @@ void	sig_quit_handler(int a);
 t_exp	*ft_lstnew_5(char *key);
 void	ft_lstadd_back_5(t_exp **lst, t_exp *new);
 void	ft_lstdel_2(t_env *bef, t_env *current, t_env **tokens);
-int     check_for_ambiguous_redirect(t_redirection *redirection);
+int     check_for_ambiguous_redirect(t_token *token);
 void	var_expansion(t_env *env, char **tok);
 char	*to_trim(char const	*s1, char const	*set);
+void	tool_1(t_token *tok);
+void	tool_2(t_token *tok);
 // int		ft_lstsize(t_token *lst);
 // t_token	*ft_lstlast(t_token *lst);
 // void	ft_lstadd_front(t_token **lst, t_token *new);

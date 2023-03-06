@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 15:27:39 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/04 20:58:15 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/06 13:31:30 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_token	*ft_lstnew(void *content)
 	if (!ptr)
 		return (NULL);
 	ptr->content = content;
+	ptr->expanded = 0;
 	ptr->type = token_mode(content);
 	ptr->next = NULL;
 	return (ptr);

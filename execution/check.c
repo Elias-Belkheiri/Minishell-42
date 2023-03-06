@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 22:21:01 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/05 20:48:15 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/06 13:33:11 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,6 @@ void	check(t_cmd *cmd, t_env **env)
 	i = ft_cmdsize(cmd);
 	if (cmd && !cmd->next)
 	{
-		if (!check_for_ambiguous_redirect(cmd->in) || !check_for_ambiguous_redirect(cmd->out))
-		{
-			ft_putendl_fd("ambiguous redirect", NULL, 2);
-			return ;
-		}
 		if (cmd->cmd && cmd->cmd[0] && is_builtin(cmd->cmd[0]))
 		{
 			io[0] = set_in(0, *cmd, 0);

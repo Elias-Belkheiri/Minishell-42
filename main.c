@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 11:32:23 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/05 23:05:12 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/06 12:45:29 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int argc, char *argv[], char *envp[])
 		cmds = NULL;
 		line = readline(RED "Minishell$ " RESET);
 		if (!line)
-			exit(g_global_data.exit_status); // exit with the last exit status $? and not 0
+			exit(g_global_data.exit_status);
 		add_history(line);
 		if (tokenize(line, &tokens))
 		{
