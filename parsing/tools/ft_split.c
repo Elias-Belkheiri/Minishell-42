@@ -6,17 +6,11 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 10:52:03 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/01 16:53:26 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/06 19:30:03 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-static void	ft_free_all_mfs(char **p)
-{
-	while (*p)
-		free(p++);
-	free(p);
-}
 
 static int	ft_count_words(char *str, char c)
 {

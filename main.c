@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 11:32:23 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/06 12:45:29 by ebelkhei         ###   ########.fr       */
+/*   Updated: 2023/03/06 20:13:55 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	main(int argc, char *argv[], char *envp[])
 		{
 			expansion(tokens, environment, &tokens);
 			del_spaces(tokens, &tokens);
+			do_expansion(&tokens);
 			if (check_syntax_errors(tokens))
 			{
 				parse_cmds(&cmds, &tokens);

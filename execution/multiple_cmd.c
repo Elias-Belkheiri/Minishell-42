@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:05:18 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/05 20:47:55 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/06 23:01:00 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,10 @@ void	child_process(t_cmd cmd, t_env *env, int i, t_pipe p, int her)
 
 	io[0] = set_in(i, cmd, her);
 	io[1] = set_out(cmd);
+	if (!cmd.cmd[0])
+		exit (0);
+	if (cmd.err == 1)
+		exit(1);
 	if (io[0] == -1 || io[1] == -1)
 		exit (1);
 	cmd_checker(p, cmd, io, i);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 11:29:33 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/06 13:37:35 by ebelkhei         ###   ########.fr       */
+/*   Updated: 2023/03/06 20:13:40 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,11 @@ void	var_expansion(t_env *env, char **tok);
 char	*to_trim(char const	*s1, char const	*set);
 void	tool_1(t_token *tok);
 void	tool_2(t_token *tok);
+int		ft_strstr(char *big, char *lil, int start, int pos);
+char	**wild_cards(char	*wildcard);
+char	*my_strchr(const char *str, int c);
+void	ft_free_all_mfs(char **str);
+void	do_expansion(t_token **toks);
 // int		ft_lstsize(t_token *lst);
 // t_token	*ft_lstlast(t_token *lst);
 // void	ft_lstadd_front(t_token **lst, t_token *new);

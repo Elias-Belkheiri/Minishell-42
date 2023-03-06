@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 23:14:54 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/06 13:50:59 by ebelkhei         ###   ########.fr       */
+/*   Updated: 2023/03/06 22:59:24 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,8 @@ void	single_cmd(t_cmd *cmd, t_env *env)
 		check_if_dir(cmd->cmd[0]);
 	her = find_herdoc(cmd, env);
 	io[0] = set_in(0, *cmd, her);
+	if (cmd->err == 1)
+		exit(1);
 	if (!cmd->cmd)
 		exit(0);
 	io[1] = set_out(*cmd);

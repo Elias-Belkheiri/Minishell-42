@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 15:05:31 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/06 13:30:51 by ebelkhei         ###   ########.fr       */
+/*   Updated: 2023/03/06 22:55:24 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # define IN 2
 # define HERE_DOC 3
 # define IS_PIPE -2
+# define START 1
+# define END 2
 
 typedef struct t_exp
 {
@@ -66,6 +68,7 @@ typedef struct t_cmd
 	t_redirection	*in;
 	t_redirection	*out;
 	int				pipe;
+	int				err;
 	struct t_cmd	*next;
 }	t_cmd;
 

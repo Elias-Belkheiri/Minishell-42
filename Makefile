@@ -2,9 +2,9 @@
 
 SRCS	= $(wildcard ./builtins/*.c) main.c $(wildcard ./execution/*.c) $(wildcard ./parsing/*.c) $(wildcard ./parsing/tools/*.c) $(wildcard ./parsing/lst_functions/*.c)
 
-CC		= cc 
+CC		= cc
 
-CFLAGS	= -Wall -Wextra -Werror -lreadline -L /Users/hhattaki/homebrew/opt/readline/lib -I /Users/hhattaki/homebrew/optopt/readline/include
+CFLAGS	= -Wall -Wextra -Werror -lreadline
 
 NAME	= minishell
 

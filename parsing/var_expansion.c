@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_expansion.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:59:11 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/06 13:52:19 by ebelkhei         ###   ########.fr       */
+/*   Updated: 2023/03/06 21:13:45 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,61 @@ void	ft_trim(t_token *tok)
 	}
 }
 
+t_token	*wild_cards_expansion(char **files, t_token *token, t_token **temp, t_token **toks)
+{
+	t_token *wild_card;
+	t_token *next;
+	int		i;
+
+	i = -1;
+	wild_card = NULL;
+	next = token->next;
+	while (files && files[++i])
+		ft_lstadd_back(&wild_card, ft_lstnew(ft_strdup(files[i])));
+	if (!temp && i != -1)
+	{
+		ft_lstlast(wild_card)->next = *toks;
+		*toks = wild_card;
+		free(token->content);
+		free(token);
+	}
+	else if (i != -1)
+	{
+		(*temp)->next = wild_card;
+		free(token->content);
+		free(token);
+		ft_lstlast(wild_card)->next = next;
+	}
+	ft_free_all_mfs(files);
+	return (next);
+}
+
+void	do_expansion(t_token **toks)
+{
+	t_token *token;
+	int		i = 0;
+
+	token = *toks;
+	while (token)
+	{
+		if (token->type == WORD && my_strchr(token->content, '*'))
+		{
+			// printf("tok: %s\n", ((*toks) + i - 1)->content);
+			token = wild_cards_expansion(wild_cards(token->content), token, toks + i, toks);
+		}
+		else
+		{
+			token = token->next;
+		}
+		i++;
+	}
+}
+
 void	check_expansion(t_token *token, t_env *env)
 {
 	if (token->type == HYPHEN)
 			hyphen_expansion(token, env);
-	if ((token->type == DOUBLE || token->type == WORD) && ft_strlen(token->content) > 1)
+	else if ((token->type == DOUBLE || token->type == WORD) && ft_strlen(token->content) > 1)
 	{
 		if (*token->content == '$')
 			token->expanded = 1;

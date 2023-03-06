@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 15:27:39 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/06 13:31:30 by ebelkhei         ###   ########.fr       */
+/*   Updated: 2023/03/06 22:55:51 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_cmd	*ft_lstnew_3(void)
 	if (!ptr)
 		return (NULL);
 	ptr->next = NULL;
+	ptr->err = 0;
 	return (ptr);
 }
 
