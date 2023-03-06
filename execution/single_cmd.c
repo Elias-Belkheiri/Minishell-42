@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 23:14:54 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/06 22:59:24 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 00:13:27 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*check_path(char	**path, char	**utils)
 
 	i = 0;
 	if (!utils)
-		return (0);	
+		return (0);
 	if (ft_strcmp(utils[0], ".") && my_strchr(utils[0], '/') && !access(utils[0], F_OK))
 	{
 		if (!access(utils[0], X_OK))
@@ -97,7 +97,7 @@ void	check_if_dir(char	*name)
 		closedir(dir);
 		exit(g_global_data.exit_status);
 	}
-	closedir(dir);
+	// closedir(dir);
 }
 
 int	check_for_ambiguous_redirect(t_token *token)

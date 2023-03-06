@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 18:19:09 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/02 21:46:22 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 00:18:27 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	set_pwds(t_env *env, char	*temp)
 		}
 		ev = ev->next;
 	}
+	free(cwd);
 	ev = env;
 	while (ev)
 	{
@@ -100,14 +101,19 @@ int	cd(t_cmd cmd, t_env *env)
 		path = get_oldpwd(cmd, env);
 	}
 	if (!path)
+	{
+		free(cwd);
 		return (1);
+	}
 	r = chdir(path);
 	if (r)
 	{
 		if (errno == EACCES || errno == ENOENT || errno == ENOTDIR)
 			perror(cmd.cmd[1]);
+		free(cwd);
 		return (1);
 	}
 	set_pwds(env, cwd);
+	free(cwd);
 	return (0);
 }
