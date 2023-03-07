@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 18:19:09 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/07 18:43:56 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 20:51:03 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	set_pwds(t_env *env, char	*temp)
 		if (!ft_strcmp(ev->key, "PWD"))
 		{
 			free (ev->value);
-			ev->value = cwd;
+			ev->value = ft_strdup(cwd);
 			break ;
 		}
 		ev = ev->next;
@@ -36,7 +36,7 @@ void	set_pwds(t_env *env, char	*temp)
 		if (!ft_strcmp(ev->key, "OLDPWD"))
 		{
 			free (ev->value);
-			ev->value = temp;
+			ev->value = ft_strdup(temp);
 			break ;
 		}
 		ev = ev->next;
