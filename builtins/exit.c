@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 17:38:39 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/07 14:08:20 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 21:37:46 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	ft_exit(char **arg)
 	}
 	printf("exit\n");
 	n = (unsigned char)ft_atoi(arg[1]);
-	// g_global_data.exit_status = n;
 	exit(n);
 	return (0);
 }

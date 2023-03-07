@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:16:40 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/02 16:21:54 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 21:37:10 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	to_print(char	**av, int i)
 
 	j = i;
 	if (!av)
-		return;
+		return ;
 	while (av && av[i] && av[i + 1])
 	{
 		t = 0;
@@ -60,7 +60,6 @@ int	echo(char **av)
 			break ;
 		}
 	}
-	// printf("here %c\n", av[1][0]);
 	if (av[1] && s && !av[1][i])
 		to_print(av, 2);
 	else if (av[1])

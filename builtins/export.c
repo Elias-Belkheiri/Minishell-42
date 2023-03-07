@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 15:07:19 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/07 18:21:00 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 22:35:39 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,7 @@ void	env_var(char *add, t_env **env, int r, t_env *new)
 		temp = temp->next;
 	}
 	if (!temp)
-	{
-		temp = *env;
-		while (temp && temp->next)
-			temp = temp->next;
-		if (temp)
-			temp->next = new;
-		else if (!(*env))
-			*env = new;
-		new->key = ft_substr(add, 0, r);
-		new->value = ft_substr(add, r + 2, ft_strlen(add) - r);
-	}
+		add_new(env, r, add, new);
 }
 
 void	exported_vars(char *add, t_exp **exp)

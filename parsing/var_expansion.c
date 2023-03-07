@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:59:11 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/07 18:29:34 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 21:39:40 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ char	*get_expansion(t_env *env, char *key)
 	{
 		free(key);
 		status = ft_itoa(g_global_data.exit_status);
+		g_global_data.exit_status = 0;
 		return (status);
 	}
 	while (env && ft_strcmp(env->key, key))
