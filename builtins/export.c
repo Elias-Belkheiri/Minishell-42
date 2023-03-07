@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 15:07:19 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/05 20:36:30 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 18:21:00 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	exported_vars(char *add, t_exp **exp)
 
 }
 
-void	check_arg(int r, char *add, t_env **env)
+int	check_arg(int r, char *add, t_env **env)
 {
 	t_env	*temp;
 	char	*hold;
@@ -110,11 +110,16 @@ void	check_arg(int r, char *add, t_env **env)
 				free(hold);
 				free(key);
 				free(new);
-				return ;
+				return (1);
 			}
 			temp = temp->next;
 		}
 		free(key);
+		if (check_if_exported(add, r))
+		{
+			free(new);
+			return (0);
+		}
 		if (temp)
 			temp->next = new;
 		else if (!(*env))
@@ -127,6 +132,7 @@ void	check_arg(int r, char *add, t_env **env)
 	}
 	else
 		env_var(add, env, r, new);
+	return (1);
 }
 
 int	export(t_env **env, char **add)
@@ -161,7 +167,14 @@ int	export(t_env **env, char **add)
 		else if (!r)
 			ft_dprintf("export: `%s': not a valid identifier\n", add[i]);
 		else
-			check_arg(r, add[i], env);
+		{
+			if (!check_arg(r, add[i], env))
+			{
+				while (i-- > 1)
+					add++;
+				export(env, add);
+			}
+		}
 		i++;
 	}
 	return (0);

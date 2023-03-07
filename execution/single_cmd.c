@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 23:14:54 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/07 00:13:27 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 18:20:14 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,7 @@ char	*check_path(char	**path, char	**utils)
 	if (utils[0] && utils[0][0] != '.')
 		c = ft_strjoin(ft_strdup("/"), utils[0]);
 	else
-	{
 		c = ft_strdup(utils[0]);
-	}
 	while (path[i] && ft_strcmp(utils[0], "."))
 	{
 		temp = ft_strjoin(ft_strdup(path[i]), c);
@@ -128,15 +126,17 @@ void	single_cmd(t_cmd *cmd, t_env *env)
 		check_if_dir(cmd->cmd[0]);
 	her = find_herdoc(cmd, env);
 	io[0] = set_in(0, *cmd, her);
+	if (io[0] == -1)
+		exit (1);
 	if (cmd->err == 1)
 		exit(1);
+	io[1] = set_out(*cmd);
+	if (io[1] == -1)
+		exit (1);
 	if (!cmd->cmd)
 		exit(0);
-	io[1] = set_out(*cmd);
-	if (io[0] == -1 || io[1] == -1)
-		exit (1);
 	path = ft_split(find_path(env), ':');
-	if (!path)
+	if (!path && !my_strchr(cmd->cmd[0], '/'))
 	{
 		ft_dprintf("%s: No such file or directory\n", cmd->cmd[0]);
 		exit(127);

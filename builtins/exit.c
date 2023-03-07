@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 17:38:39 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/03 23:36:26 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 14:08:20 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@ static	int	check_max(int sign)
 		return (-1);
 }
 
+void	num_args(char	*hold)
+{
+	ft_dprintf("exit: %s: numeric argument required\n", hold);
+	g_global_data.exit_status = 255;
+	exit (g_global_data.exit_status);
+}
+
 int	ft_atoi(const char *str)
 {
 	int		sign;
@@ -31,6 +38,8 @@ int	ft_atoi(const char *str)
 	hold = (char *)str;
 	while (str && ((*str >= 9 && *str <= 13) || *str == 32))
 		str++;
+	if (str && !*str)
+		num_args(hold);
 	if (str && (*str == '+' || *str == '-'))
 		if (*str++ == '-')
 			sign *= -1;
@@ -41,11 +50,7 @@ int	ft_atoi(const char *str)
 			return (check_max(sign));
 	}
 	if (str && *str && (*str < '0' || *str > '9'))
-	{
-		ft_dprintf("exit: %s: numeric argument required\n", hold);
-		// g_global_data.exit_status = 255;
-		exit (255);
-	}
+		num_args(hold);
 	return (n * sign);
 }
 
@@ -65,7 +70,6 @@ int	ft_exit(char **arg)
 	}
 	printf("exit\n");
 	n = (unsigned char)ft_atoi(arg[1]);
-	// printf("%d\n", n);
 	// g_global_data.exit_status = n;
 	exit(n);
 	return (0);

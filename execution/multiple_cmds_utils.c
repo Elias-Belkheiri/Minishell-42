@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 19:37:34 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/06 21:51:57 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 15:26:37 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ int	set_in(int i, t_cmd cmd, int herdoc)
 		{
 			if (cmd.in->type == IN)
 				in_f = check_in_files(cmd.in->redirection);
+			if (in_f == -1)
+				return(in_f);
 			if (!cmd.in->next && cmd.in->type == HERE_DOC)
 				in_f = herdoc;
 			cmd.in = cmd.in->next;

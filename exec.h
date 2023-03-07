@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 15:05:31 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/06 22:55:24 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 16:35:30 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int		export(t_env **env, char	**add);
 int		call_builtin(t_env **env_var, t_cmd	*cmd);
 int		is_builtin(char *cmd);
 int		find_herdoc(t_cmd *cmd, t_env *env);
+int		check_if_exported(char *add, int r);
 
 /*----------utils----------*/
 void	free_env(t_env *env);
@@ -117,6 +118,7 @@ int		ft_wait(int *id, int i, t_pipe *p);
 
 /*---------checking--------*/
 void	check(t_cmd *cmd, t_env **env);
+void	check_if_dir(char	*name);
 
 /*------single_command-----*/
 void	single_cmd(t_cmd *cmd, t_env *env);

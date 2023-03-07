@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 15:16:41 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/07 13:38:33 by ebelkhei         ###   ########.fr       */
+/*   Updated: 2023/03/06 19:39:50 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	match(char *wildcard, char *name)
 	if (wildcard[ft_strlen(wildcard) - 1] != '*')
 		end = END;
 	tab = ft_split(wildcard, '*');
-	if (!tab || !tab[i])
+	if (!tab[i])
 		return (1);
 	while (tab[i])
 	{
@@ -41,12 +41,12 @@ int	match(char *wildcard, char *name)
 			s = ft_strstr(name, tab[i], s, 0);
 		if (s == -1)
 		{
-			ft_free_all_mfs(tab);
+			free_strs(tab);
 			return (0);
 		}
 		i++;
 	}
-	ft_free_all_mfs(tab);
+	free_strs(tab);
 	return (s);
 }
 

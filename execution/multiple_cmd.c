@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:05:18 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/06 23:01:00 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 15:37:45 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,17 +94,21 @@ void	child_process(t_cmd cmd, t_env *env, int i, t_pipe p, int her)
 	char	*temp;
 	int		io[2];
 
+	if (cmd.cmd && my_strchr(cmd.cmd[0], '/'))
+		check_if_dir(cmd.cmd[0]);
 	io[0] = set_in(i, cmd, her);
+	if (io[0] == -1)
+		exit (1);
 	io[1] = set_out(cmd);
+	if (io[1] == -1)
+		exit (1);
 	if (!cmd.cmd[0])
 		exit (0);
 	if (cmd.err == 1)
 		exit(1);
-	if (io[0] == -1 || io[1] == -1)
-		exit (1);
 	cmd_checker(p, cmd, io, i);
 	path = ft_split(find_path(env), ':');
-	if (!path)
+	if (!path && !my_strchr(cmd.cmd[0], '/'))
 	{
 		ft_dprintf("%s: No such file or directory\n", cmd.cmd[0]);
 		exit(127);

@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 15:09:16 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/05 17:50:50 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 18:07:39 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	herdoc(char *del, t_env *env, int should_expand)
 	pid_t	id;
 	char	*hold;
 
+	dprintf(2, "%s\n", del);
 	pipe(p);
 	id = fork();
 	if (!id)

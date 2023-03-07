@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 18:19:09 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/07 00:18:27 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 18:43:56 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	set_pwds(t_env *env, char	*temp)
 	{
 		if (!ft_strcmp(ev->key, "PWD"))
 		{
-			// dprintf(2, "%p\n", ev->value);
 			free (ev->value);
 			ev->value = cwd;
 			break ;
@@ -36,7 +35,6 @@ void	set_pwds(t_env *env, char	*temp)
 	{
 		if (!ft_strcmp(ev->key, "OLDPWD"))
 		{
-			// dprintf(2, "%p\n", ev->value);
 			free (ev->value);
 			ev->value = temp;
 			break ;
@@ -96,10 +94,7 @@ int	cd(t_cmd cmd, t_env *env)
 	if (!cmd.cmd[1])
 		path = get_home(cmd, env);
 	else if (!ft_strcmp(cmd.cmd[1], "-"))
-	{
-		
 		path = get_oldpwd(cmd, env);
-	}
 	if (!path)
 	{
 		free(cwd);
