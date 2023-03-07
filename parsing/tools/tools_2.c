@@ -6,7 +6,7 @@
 /*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 16:31:56 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/03 15:21:39 by ebelkhei         ###   ########.fr       */
+/*   Updated: 2023/03/07 14:02:55 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,51 +25,6 @@ int	is_expansion_separator(int a)
 	if (!ft_isalnum(a) && a != '_')
 		return (1);
 	return (0);
-}
-
-void	print_cmd(t_cmd *command)
-{
-	int	i;
-	t_redirection *tmp;
-
-	i = 0;
-	while (command)
-	{
-		printf("------------\n");
-		i = -1;
-		while (command->cmd && command->cmd[++i])
-		{
-			if (!i)
-				printf("command: %s\n", command->cmd[i]);
-			else
-				printf("Arg: %s\n", command->cmd[i]);
-		}
-		i = 0;
-		tmp = command->out;
-		while (tmp)
-		{
-			if (tmp->type == OUT)
-				printf("Out %d: %s\n", i++, tmp->redirection);
-			else
-				printf("Append %d: %s\n", i++, tmp->redirection);
-			tmp = tmp->next;
-		}
-		tmp = command->in;
-		while (tmp)
-		{
-			if (tmp->type == IN)
-				printf("IN %d: %s\n", i++, tmp->redirection);
-			else
-				printf("HERE_DOC %d: %s\n", i++, tmp->redirection);
-			// if (command->in->should_expand)
-				printf("Variables Should Expand: %d\n", tmp->should_expand);
-			
-			tmp = tmp->next;
-		}
-		printf("Pipe: %d\n", command->pipe);
-		command = command->next;
-		printf("------------\n");
-	}
 }
 
 void	ft_free_all_mfs(char **str)
@@ -104,5 +59,23 @@ void	clear_cmds(t_cmd **cmds)
 		tmp2 = tmp->next;
 		free(tmp);
 		tmp = tmp2;
+	}
+}
+
+int	ft_join(t_token **token, t_token *bef)
+{
+	if ((*token)->type == SPACE
+		|| (*token)->type == PIPE || (*token)->type == OPERATOR)
+		return (0);
+	if (!bef || bef->type == SPACE
+		|| bef->type == PIPE || bef->type == OPERATOR)
+		return (0);
+	else
+	{
+		bef->content = ft_strjoin(bef->content, (*token)->content);
+		bef->next = (*token)->next;
+		ft_lstdelone(*token);
+		*token = bef->next;
+		return (1);
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 11:29:33 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/06 20:13:40 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 14:00:09 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ void	set_operator(t_token *token, t_redirection **redirection, int type);
 void	is_operator(t_token *token, t_cmd *cmd);
 void	initialize_args(t_token *token, t_cmd *cmd);
 void	hyphen_expansion(t_token *token, t_env *env);
-void	ft_free(char *str1, char *str2);
+void	ft_free(char *str1, char *str2, char *content, char *expansion);
 int		ft_isalnum(int argument);
 void	ft_trim(t_token *tok);
 char	*ft_itoa(int n);
@@ -158,7 +158,12 @@ int		ft_strstr(char *big, char *lil, int start, int pos);
 char	**wild_cards(char	*wildcard);
 char	*my_strchr(const char *str, int c);
 void	ft_free_all_mfs(char **str);
-void	do_expansion(t_token **toks);
+void	do_wild_card_expansion(t_token *token, t_token **toks);
+void	initialize_vars(char **content, char **tmp, int *i, char *tok);
+void	ignore_exp_here_doc(t_token *tok);
+int     ft_join(t_token **token, t_token *bef);
+int     check_digits(char *str);
+int     must_expand(int a, int b);
 // int		ft_lstsize(t_token *lst);
 // t_token	*ft_lstlast(t_token *lst);
 // void	ft_lstadd_front(t_token **lst, t_token *new);

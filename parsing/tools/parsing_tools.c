@@ -3,19 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_tools.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 16:35:45 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/06 22:56:48 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 13:29:58 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+int	ft_error(t_token **tokens)
+{
+	ft_lstclear(tokens);
+	return (0);
+}
+
 void	set_operator(t_token *token, t_redirection **redirection, int type)
 {
 	if (token)
-		ft_lstadd_back_4(redirection, ft_lstnew_4(ft_strdup(token->content), type));
+		ft_lstadd_back_4(redirection,
+			ft_lstnew_4(ft_strdup(token->content), type));
 	if (token && type == HERE_DOC && token->type == SINGLE_EXPAND)
 		ft_lstlast_3(*redirection)->should_expand = 1;
 }
@@ -42,7 +49,7 @@ void	is_operator(t_token *token, t_cmd *cmd)
 
 void	hyphen_expansion(t_token *token, t_env *env)
 {
-	char *tmp;
+	char	*tmp;
 
 	if (token)
 	{
@@ -60,7 +67,7 @@ void	initialize_args(t_token *token, t_cmd *command)
 	while (token && token->type != PIPE)
 	{
 		if (token->type == WORD || token->type == DOUBLE
-		|| token->type == SINGLE || token->type == HYPHEN)
+			|| token->type == SINGLE || token->type == HYPHEN)
 			i++;
 		token = token->next;
 	}
