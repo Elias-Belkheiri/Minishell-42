@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 16:31:56 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/07 18:35:36 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 19:32:12 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ void	clear_cmds(t_cmd **cmds)
 
 int	ft_join(t_token **token, t_token *bef)
 {
-	if ((*token)->type == SPACE
+	if ((*token)->type == SPACES
 		|| (*token)->type == PIPE || (*token)->type == OPERATOR)
 		return (0);
-	if (!bef || bef->type == SPACE
+	if (!bef || bef->type == SPACES
 		|| bef->type == PIPE || bef->type == OPERATOR)
 		return (0);
 	else

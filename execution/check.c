@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 22:21:01 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/06 23:42:25 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 19:31:02 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,6 @@ int	call_builtin(t_env **env_var, t_cmd	*cmd)
 		ex = ft_exit(cmd->cmd);
 	return (ex);
 }
-
-// If The redirections are tailed withe spaces, they must be deleted except the last one.
-// << l
-// << "$USER" cat | cat
 
 void	check(t_cmd *cmd, t_env **env)
 {

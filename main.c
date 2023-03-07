@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 11:32:23 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/07 18:25:35 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 19:44:58 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ int	main(int argc, char *argv[], char *envp[])
 	(void)argv;
 	environment = NULL;
 	g_global_data.exit_status = 0;
-	if (!parse_env(envp, &environment))
-		write(2, "Invalid environment\n", 21);
+	parse_env(envp, &environment);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sig_int_handler);
 	while (1)

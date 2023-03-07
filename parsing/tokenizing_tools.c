@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing_tools.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 16:29:34 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/02/27 22:47:26 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 19:31:17 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	token_mode(char *token)
 	if (*token == '\'')
 		return (SINGLE);
 	if (*token == ' ')
-		return (SPACE);
+		return (SPACES);
 	if (*token == '|')
 		return (PIPE);
 	if (token[0] && token[1] && !ft_strncmp(token, "<<", 2))

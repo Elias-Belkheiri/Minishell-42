@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:36:22 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/07 18:32:36 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 19:31:08 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	fill_cmd(t_cmd *cmd, t_token *token, int *i)
 {
-	if (!token || token->type == SPACE)
+	if (!token || token->type == SPACES)
 		return ;
 	if ((token->type == WORD || token->type == DOUBLE
 			|| token->type == SINGLE || token->type == HYPHEN) && cmd->cmd)
@@ -33,7 +33,7 @@ void	del_spaces(t_token *token, t_token **tokens)
 	bef = NULL;
 	while (token)
 	{
-		if (token->type == SPACE)
+		if (token->type == SPACES)
 			ft_lstdel(bef, &token, tokens);
 		else
 		{

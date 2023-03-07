@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:37:04 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/07 18:35:57 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 19:31:29 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	check_spaces(t_token *tok)
 {
-	while (tok && tok->type == SPACE)
+	while (tok && tok->type == SPACES)
 		tok = tok->next;
 	if (!tok)
 		return (1);

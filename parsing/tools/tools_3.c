@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools_3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:45:31 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/07 18:35:12 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 19:34:12 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	ignore_exp_here_doc(t_token *tok)
 	{
 		if (ft_strlen(tok->content) == 1 && *tok->content == '$')
 			tool_1(tok);
-		else if (ft_strlen(tok->content) == 2 && !ft_strcmp(tok->content, "<<"))
+		else if (ft_strlen(tok->content) == 2 && tok->type == WORD && !ft_strcmp(tok->content, "<<"))
 		{
-			if (tok->next && tok->next->type == SPACE)
+			if (tok->next && tok->next->type == SPACES)
 			{
 				if (tok->next->next && tok->next->next->type != PIPE
 					&& tok->next->next->type != OPERATOR)
