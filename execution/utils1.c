@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 19:10:03 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/08 02:18:33 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/08 02:45:07 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,9 @@ int	*open_herdocs(int count, t_cmd *cmd, t_env *env)
 {
 	int		*her;
 	t_cmd	*temp;
-	int		i = 0;
+	int		i;
 
+	i = 0;
 	her = malloc(count * sizeof(int));
 	temp = cmd;
 	while (temp && i < count)
@@ -60,13 +61,13 @@ int	*open_herdocs(int count, t_cmd *cmd, t_env *env)
 void	cmd_type(t_utils *utils, int i, t_cmd *cmd, t_env **env)
 {
 	signal(SIGQUIT, SIG_DFL);
-	signal(SIGINT, SIG_DFL);	
+	signal(SIGINT, SIG_DFL);
 	if (cmd->cmd && is_builtin(cmd->cmd[0]))
 	{
 		utils->io[0] = set_in(i, *cmd, utils->her[i]);
 		utils->io[1] = set_out(*cmd);
 		if (utils->io[1] == -1)
-				exit (1);
+			exit (1);
 		cmd_checker(utils->p, *cmd, utils->io, i);
 		g_global_data.exit_status = call_builtin(env, cmd);
 		exit(g_global_data.exit_status);
