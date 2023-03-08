@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:05:18 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/08 02:19:16 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/08 15:44:31 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void	multiple_cmds(int count, t_cmd *cmd, t_env **env)
 	int		i;
 
 	id = (pid_t *)malloc(count * sizeof(pid_t));
-	utils.her = open_herdocs(count, cmd, *env);
+	utils.her = open_heredocs(count, cmd, *env);
 	if (!utils.her)
 		return ;
 	i = 0;

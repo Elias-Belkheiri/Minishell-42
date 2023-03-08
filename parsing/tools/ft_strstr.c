@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:17:22 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/07 18:37:44 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/08 15:14:48 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	check_end(char *big, char *lil)
 {
 	int	l_b;
 	int	l_l;
-	
+
 	l_b = ft_strlen(big) - 1;
 	l_l = ft_strlen(lil) - 1;
 	while (l_l >= 0 && l_b >= 0)
@@ -33,7 +33,6 @@ int	check_end(char *big, char *lil)
 
 int	check_start(char *big, char *lil, int start)
 {
-
 	while (big[start] && lil[start])
 	{
 		if (lil[start] && lil[start] != big[start])

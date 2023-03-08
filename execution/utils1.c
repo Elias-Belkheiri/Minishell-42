@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 19:10:03 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/08 02:45:07 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/08 15:44:54 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	file_error(int in, t_cmd cmd)
 		exit(1);
 }
 
-int	*open_herdocs(int count, t_cmd *cmd, t_env *env)
+int	*open_heredocs(int count, t_cmd *cmd, t_env *env)
 {
 	int		*her;
 	t_cmd	*temp;
@@ -46,7 +46,7 @@ int	*open_herdocs(int count, t_cmd *cmd, t_env *env)
 	temp = cmd;
 	while (temp && i < count)
 	{	
-		her[i] = find_herdoc(temp, env);
+		her[i] = find_heredoc(temp, env);
 		if (her[i] == -1)
 		{
 			g_global_data.exit_status = 1;

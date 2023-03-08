@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 23:14:54 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/08 13:55:50 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/08 15:44:58 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	single_cmd(t_cmd *cmd, t_env *env)
 
 	if (cmd->cmd && my_strchr(cmd->cmd[0], '/'))
 		check_if_dir(cmd->cmd[0]);
-	her = find_herdoc(cmd, env);
+	her = find_heredoc(cmd, env);
 	io[0] = set_in(0, *cmd, her);
 	file_error(io[0], *cmd);
 	io[1] = set_out(*cmd);

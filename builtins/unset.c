@@ -6,16 +6,24 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 21:59:21 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/07 23:58:28 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/08 16:54:29 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	print_error(char *key)
+void	del(char *key, t_env **hold, t_env *temp, t_env **env_vars)
 {
-	ft_dprintf("unset: `%s': not a valid identifier\n", key);
-	return (1);
+	while (*hold)
+	{
+		if (hold && !ft_strcmp((*hold)->key, key))
+		{
+			ft_lstdel_2(temp, *hold, env_vars);
+			break ;
+		}
+		temp = *hold;
+		*hold = (*hold)->next;
+	}		
 }
 
 int	unset(char **key, t_env	**env_vars)
@@ -33,18 +41,13 @@ int	unset(char **key, t_env	**env_vars)
 	{
 		r = is_alphanum(key[i]);
 		if (r != -1)
-			ex = print_error(key[i]);
-		temp = 0;
-		while (r == -1 && hold)
 		{
-			if (hold && !ft_strcmp(hold->key, key[i]))
-			{
-				ft_lstdel_2(temp, hold, env_vars);
-				break ;
-			}
-			temp = hold;
-			hold = hold->next;
+			ft_dprintf("unset: `%s': not a valid identifier\n", key[i]);
+			ex = 1;
 		}
+		temp = 0;
+		if (r == -1)
+			del(key[i], &hold, temp, env_vars);
 		hold = *env_vars;
 		i++;
 	}
