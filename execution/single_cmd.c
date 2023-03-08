@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 23:14:54 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/08 02:24:02 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/08 02:27:10 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ void	check_if_dir(char	*name)
 		closedir(dir);
 		exit(g_global_data.exit_status);
 	}
-	// closedir(dir);
 }
 
 int	check_for_ambiguous_redirect(t_token *token)

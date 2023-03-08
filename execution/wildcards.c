@@ -3,31 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 15:16:41 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/07 19:33:06 by ebelkhei         ###   ########.fr       */
+/*   Updated: 2023/03/08 02:43:47 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+typedef struct s_int
+{
+	int	s;
+	int	start;
+	int	end;
+}	t_int;
+
+void	init_ints(t_int	*utils, char *wildcard)
+{
+	utils->start = 0;
+	utils->end = 0;
+	utils->s = 0;
+	if (wildcard[0] != '*')
+		utils->start = START;
+	if (wildcard[ft_strlen(wildcard) - 1] != '*')
+		utils->end = END;
+}
+
+void	check_file_name(int i, char *tab, t_int *utils, char *name)
+{
+	if (!i && utils->start == START)
+		utils->s = ft_strstr(name, tab[i], utils->s, utils->start);
+	else if (!tab[i + 1])
+		utils->s = ft_strstr(name, tab[i], utils->s, utils->end);
+	else
+		utils->s = ft_strstr(name, tab[i], utils->s, 0);
+}
+
 int	match(char *wildcard, char *name)
 {
-	int		start;
-	int		end;
 	char	**tab;
 	int		i;
-	int		s;
+	t_int	utils;
 
-	start = 0;
-	end = 0;
 	i = 0;
-	s = 0;
-	if (wildcard[0] != '*')
-		start = START;
-	if (wildcard[ft_strlen(wildcard) - 1] != '*')
-		end = END;
+	init_ints(&utils, wildcard);
 	tab = ft_split(wildcard, '*');
 	if (!tab[i])
 	{
@@ -36,13 +56,8 @@ int	match(char *wildcard, char *name)
 	}
 	while (tab[i])
 	{
-		if (!i && start == START)
-			s = ft_strstr(name, tab[i], s, start);
-		else if (!tab[i + 1])
-			s = ft_strstr(name, tab[i], s, end);
-		else
-			s = ft_strstr(name, tab[i], s, 0);
-		if (s == -1)
+		check_file_name(i, tab, &utils, name);
+		if (utils.s == -1)
 		{
 			free_strs(tab);
 			return (0);
@@ -50,10 +65,10 @@ int	match(char *wildcard, char *name)
 		i++;
 	}
 	free_strs(tab);
-	return (s);
+	return (utils.s);
 }
 
-int	count(char	*wildcard)
+int	count(char	*str)
 {
 	char			*cwd;
 	DIR				*dir;
@@ -68,9 +83,9 @@ int	count(char	*wildcard)
 		d = readdir(dir);
 		while (d)
 		{
-			if (!ft_strcmp(wildcard, "*") && ft_strncmp(d->d_name, ".", 1))
+			if (!ft_strcmp(str, "*") && ft_strncmp(d->d_name, ".", 1))
 				i++;
-			else if (match(wildcard, d->d_name) && ft_strncmp(d->d_name, ".", 1))
+			else if (match(str, d->d_name) && ft_strncmp(d->d_name, ".", 1))
 				i++;
 			d = readdir(dir);
 		}
@@ -97,7 +112,8 @@ char	**wild_cards(char	*wildcard)
 		d = readdir(dir);
 		while (d)
 		{
-			if ((!ft_strcmp(wildcard, "*") || match(wildcard, d->d_name)) && ft_strncmp(d->d_name, ".", 1))
+			if ((!ft_strcmp(wildcard, "*") || match(wildcard, d->d_name))
+				&& ft_strncmp(d->d_name, ".", 1))
 			{
 				files[i] = ft_strdup(d->d_name);
 				i++;
@@ -105,7 +121,5 @@ char	**wild_cards(char	*wildcard)
 			d = readdir(dir);
 		}
 	}
-	closedir(dir);
-	free (cwd);
-	return (files);
+	return (to_return(dir, cwd, files));
 }

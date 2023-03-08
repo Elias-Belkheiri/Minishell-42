@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 15:05:31 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/08 02:18:56 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/08 02:43:34 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ void	check_pipe(t_pipe *p, int i);
 int		is_alphanum(char *s);
 int		ft_wait(int *id, int i, t_pipe *p);
 void	get_old_fd(int in, t_env **env_vars, t_cmd *cmd);
+char	**to_return(DIR *dir, char *cwd, char **files);
 
 /*---------checking--------*/
 void	check(t_cmd *cmd, t_env **env);
