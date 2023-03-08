@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:05:18 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/07 15:37:45 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/08 02:19:16 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	odd_child(int in, int out, t_pipe p)
 		dup2(p.p2[1], 1);
 	close(p.p2[1]);
 }
+
 // reads from pipe 2 and writes to pipe 1
 void	even_child(int in, int out, t_pipe p)
 {
@@ -84,11 +85,11 @@ int	ft_wait(int *id, int i, t_pipe *p)
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))
-		return(WTERMSIG(status) + 128);
+		return (WTERMSIG(status) + 128);
 	return (1);
 }
 
-void	child_process(t_cmd cmd, t_env *env, int i, t_pipe p, int her)
+void	child_process(t_cmd cmd, t_env *env, int i, t_utils *utils)
 {
 	char	**path;
 	char	*temp;
@@ -96,83 +97,52 @@ void	child_process(t_cmd cmd, t_env *env, int i, t_pipe p, int her)
 
 	if (cmd.cmd && my_strchr(cmd.cmd[0], '/'))
 		check_if_dir(cmd.cmd[0]);
-	io[0] = set_in(i, cmd, her);
-	if (io[0] == -1)
-		exit (1);
+	io[0] = set_in(i, cmd, utils->her[i]);
+	file_error(io[0], cmd);
 	io[1] = set_out(cmd);
 	if (io[1] == -1)
 		exit (1);
 	if (!cmd.cmd[0])
 		exit (0);
-	if (cmd.err == 1)
-		exit(1);
-	cmd_checker(p, cmd, io, i);
+	cmd_checker(utils->p, cmd, io, i);
 	path = ft_split(find_path(env), ':');
 	if (!path && !my_strchr(cmd.cmd[0], '/'))
 	{
 		ft_dprintf("%s: No such file or directory\n", cmd.cmd[0]);
 		exit(127);
 	}
+	temp = 0;
 	if (cmd.cmd)
 		temp = check_path(path, cmd.cmd);
-	else
-		temp = 0;
 	free_strs(path);
 	execve(temp, cmd.cmd, ls_to_arr(env));
 }
 
 void	multiple_cmds(int count, t_cmd *cmd, t_env **env)
 {
-	pid_t	id[count];
-	t_pipe	p;
+	pid_t	*id;
+	t_utils	utils;
 	int		i;
-	int		cmdsize;
-	int		her[count];
-	t_cmd *temp;
-	int	io[2];
-	
-	temp = cmd;
+
+	id = (pid_t *)malloc(count * sizeof(pid_t));
+	utils.her = open_herdocs(count, cmd, *env);
+	if (!utils.her)
+		return ;
 	i = 0;
-	while (temp && i < count)
-	{	
-		her[i] = find_herdoc(temp, *env);
-		if (her[i] == -1)
-		{
-			g_global_data.exit_status = 1;
-			return;
-		}
-		temp = temp->next;
-		i++;
-	}
-	i = 0;
-	cmdsize = ft_cmdsize(cmd);
-	pipe(p.p1);
-	pipe(p.p2);
+	utils.size = ft_cmdsize(cmd);
+	pipe(utils.p.p1);
+	pipe(utils.p.p2);
 	while (cmd && i < count)
 	{
 		id[i] = fork();
 		if (!id[i])
-		{
-			signal(SIGQUIT, SIG_DFL);
-			signal(SIGINT, SIG_DFL);		
-			if (cmd->cmd && is_builtin(cmd->cmd[0]))
-			{
-				io[0] = set_in(i, *cmd, her[i]);
-				io[1] = set_out(*cmd);
-				if (io[1] == -1)
-					exit (1);
-				cmd_checker(p, *cmd, io, i);
-				g_global_data.exit_status = call_builtin(env, cmd);
-				exit(g_global_data.exit_status);
-			}
-			else
-				child_process(*cmd, *env, i, p, her[i]);
-		}
-		check_pipe(&p, i);
+			cmd_type(&utils, i, cmd, env);
+		check_pipe(&(utils.p), i);
 		i++;
 		cmd = cmd->next;
 	}
-	g_global_data.exit_status = ft_wait(id, cmdsize - 1, &p);
+	g_global_data.exit_status = ft_wait(id, utils.size - 1, &(utils.p));
 	while (--i >= 0)
 		waitpid(id[i], NULL, 0);
+	free_utils(utils.her, id);
 }

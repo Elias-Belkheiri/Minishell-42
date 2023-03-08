@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 15:07:19 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/07 22:35:39 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 23:53:09 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ int	is_alphanum(char *s)
 		{
 			if (s[i] == '=' || s[i] == '+')
 				return (i);
-			else	
+			else
 				return (0);
 		}
-		i++;	
+		i++;
 	}
 	return (-1);
 }
@@ -57,7 +57,7 @@ void	env_var(char *add, t_env **env, int r, t_env *new)
 		temp = temp->next;
 	}
 	if (!temp)
-		add_new(env, r, add, new);
+		plus_add_new(env, r, add, new);
 }
 
 void	exported_vars(char *add, t_exp **exp)
@@ -75,50 +75,21 @@ void	exported_vars(char *add, t_exp **exp)
 		(*exp) = new;
 	new->key = ft_strdup(add);
 	new->next = 0;
-
 }
 
 int	check_arg(int r, char *add, t_env **env)
 {
 	t_env	*temp;
-	char	*hold;
-	char	*key;
 	t_env	*new;
+	int		ret;
 
 	temp = *env;
 	new = (t_env *)ft_calloc(1, sizeof(t_env));
 	if (add[r] == '=')
 	{
-		key = ft_substr(add, 0, r);
-		while (temp && temp->next)
-		{
-			if (!ft_strcmp(key, temp->next->key))
-			{
-				free (temp->next->value);
-				hold = ft_substr(add, r + 1, ft_strlen(add) - r);
-				temp->next->value = to_trim(hold, " ");
-				free(hold);
-				free(key);
-				free(new);
-				return (1);
-			}
-			temp = temp->next;
-		}
-		free(key);
-		if (check_if_exported(add, r))
-		{
-			free(new);
-			return (0);
-		}
-		if (temp)
-			temp->next = new;
-		else if (!(*env))
-			(*env) = new;
-		new->key = ft_substr(add, 0, r);
-		hold = ft_substr(add, r + 1, ft_strlen(add) - r);
-		new->value = to_trim(hold, " ");
-		new->next = 0;
-		free(hold);
+		ret = add_new(add, r, env, new);
+		if (ret > -1)
+			return (r);
 	}
 	else
 		env_var(add, env, r, new);
@@ -127,28 +98,12 @@ int	check_arg(int r, char *add, t_env **env)
 
 int	export(t_env **env, char **add)
 {
-	t_exp	*exp;
-	t_env	*temp;
 	int		i;
 	int		r;
 
 	i = 1;
 	if (!add[1])
-	{
-		temp = *env;
-		while (temp)
-		{
-			printf("%s=%s\n", temp->key, temp->value);
-			temp = temp->next;
-		}
-		exp = g_global_data.exported_vars;
-		while (exp)
-		{
-			if (exp->key)
-				printf("%s=\n", exp->key);
-			exp = exp->next;
-		}
-	}
+		print_export(env);
 	while (add && add[i])
 	{
 		r = is_alphanum(add[i]);

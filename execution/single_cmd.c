@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 23:14:54 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/07 18:20:14 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/08 02:24:02 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ char	*check_path(char	**path, char	**utils)
 	i = 0;
 	if (!utils)
 		return (0);
-	if (ft_strcmp(utils[0], ".") && my_strchr(utils[0], '/') && !access(utils[0], F_OK))
+	if (ft_strcmp(utils[0], ".") && my_strchr(utils[0], '/'))
 	{
-		if (!access(utils[0], X_OK))
+		if (!access(utils[0], F_OK) && !access(utils[0], X_OK))
 			return (ft_strdup(utils[0]));
-		else
+		else if (!access(utils[0], F_OK))
 		{
 			ft_dprintf("%s: Permission denied\n", utils[0]);
 			exit(126);
@@ -86,7 +86,7 @@ char	*check_path(char	**path, char	**utils)
 void	check_if_dir(char	*name)
 {
 	DIR		*dir;
-	
+
 	dir = opendir(name);
 	if (dir)
 	{
@@ -126,14 +126,11 @@ void	single_cmd(t_cmd *cmd, t_env *env)
 		check_if_dir(cmd->cmd[0]);
 	her = find_herdoc(cmd, env);
 	io[0] = set_in(0, *cmd, her);
-	if (io[0] == -1)
-		exit (1);
-	if (cmd->err == 1)
-		exit(1);
+	file_error(io[0], *cmd);
 	io[1] = set_out(*cmd);
 	if (io[1] == -1)
 		exit (1);
-	if (!cmd->cmd)
+	if (!cmd->cmd[0])
 		exit(0);
 	path = ft_split(find_path(env), ':');
 	if (!path && !my_strchr(cmd->cmd[0], '/'))

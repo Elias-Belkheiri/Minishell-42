@@ -6,13 +6,17 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 21:59:21 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/04 22:30:18 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/07 23:58:28 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// void	del()
+int	print_error(char *key)
+{
+	ft_dprintf("unset: `%s': not a valid identifier\n", key);
+	return (1);
+}
 
 int	unset(char **key, t_env	**env_vars)
 {
@@ -29,10 +33,7 @@ int	unset(char **key, t_env	**env_vars)
 	{
 		r = is_alphanum(key[i]);
 		if (r != -1)
-		{
-			ft_dprintf("unset: `%s': not a valid identifier\n", key[i]);
-			ex = 1;
-		}
+			ex = print_error(key[i]);
 		temp = 0;
 		while (r == -1 && hold)
 		{

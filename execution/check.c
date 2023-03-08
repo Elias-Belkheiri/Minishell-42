@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 22:21:01 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/07 19:31:02 by ebelkhei         ###   ########.fr       */
+/*   Updated: 2023/03/08 00:29:44 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	call_builtin(t_env **env_var, t_cmd	*cmd)
 		ex = env(*env_var);
 	else if (!ft_strcmp("export", cmd->cmd[0]))
 		ex = export(env_var, cmd->cmd);
-		else if (!ft_strcmp("exit", cmd->cmd[0]))
+	else if (!ft_strcmp("exit", cmd->cmd[0]))
 		ex = ft_exit(cmd->cmd);
 	return (ex);
 }
@@ -103,7 +103,7 @@ void	check(t_cmd *cmd, t_env **env)
 			if (io[1] != 1)
 			{
 				dup2(io[1], 1);
-				close(io[1]);	
+				close(io[1]);
 			}
 			g_global_data.exit_status = call_builtin(env, cmd);
 			dup2(temp, 1);

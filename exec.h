@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 15:05:31 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/07 22:34:45 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/08 02:18:56 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,14 @@ typedef struct s_pipe
 	int	p2[2];
 }	t_pipe;
 
+typedef struct s_utils
+{
+	t_pipe	p;
+	int		*her;
+	int		io[2];
+	int		size;
+} t_utils;
+
 //add ambegious or whatever that shit is
 
 /*---------builtins---------*/
@@ -101,7 +109,10 @@ int		call_builtin(t_env **env_var, t_cmd	*cmd);
 int		is_builtin(char *cmd);
 int		find_herdoc(t_cmd *cmd, t_env *env);
 int		check_if_exported(char *add, int r);
-void	add_new(t_env **env, int r, char *add, t_env *new);
+void	plus_add_new(t_env **env, int r, char *add, t_env *new);
+int		add_new(char *add, int r, t_env **env, t_env *new);
+void	print_export(t_env **env);
+int		set_node(char *add, int r, t_env *new);
 
 /*----------utils----------*/
 void	free_env(t_env *env);
@@ -116,6 +127,7 @@ int		herdoc(char *del, t_env *env, int should_expand);
 void	check_pipe(t_pipe *p, int i);
 int		is_alphanum(char *s);
 int		ft_wait(int *id, int i, t_pipe *p);
+void	get_old_fd(int in, t_env **env_vars, t_cmd *cmd);
 
 /*---------checking--------*/
 void	check(t_cmd *cmd, t_env **env);
@@ -130,5 +142,12 @@ void	odd_child(int in, int out, t_pipe p);
 void	cmd_checker(t_pipe p, t_cmd cmd, int *io, int i);
 void	multiple_cmds(int count, t_cmd *cmd, t_env **env);
 int		ft_cmdsize(t_cmd *lst);
+int		*open_herdocs(int count, t_cmd *cmd, t_env *env);
+void	cmd_type(t_utils *utils, int i, t_cmd *cmd, t_env **env);
+void	child_process(t_cmd cmd, t_env *env, int i, t_utils *utils);
+
+/*----------errors--------*/
+void	file_error(int in, t_cmd cmd);
+void	free_utils(int *utils, pid_t *id);
 
 #endif

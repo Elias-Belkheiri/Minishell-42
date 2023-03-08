@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 15:09:16 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/07 19:35:02 by ebelkhei         ###   ########.fr       */
+/*   Updated: 2023/03/08 00:30:27 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	herdoc(char *del, t_env *env, int should_expand)
 {
-	int p[2];
+	int		p[2];
 	pid_t	id;
 	char	*hold;
 
@@ -33,12 +33,12 @@ int	herdoc(char *del, t_env *env, int should_expand)
 			if (!ft_strcmp(hold, del))
 			{
 				free (hold);
-				break;
+				break ;
 			}
 			if (should_expand)
 				var_expansion(env, &hold);
 			write (p[1], hold, ft_strlen(hold));
-			write(p[1] , "\n", 1);
+			write(p[1], "\n", 1);
 			free (hold);
 		}
 		close (p[1]);
@@ -48,7 +48,7 @@ int	herdoc(char *del, t_env *env, int should_expand)
 	if (ft_wait(&id, 0, 0))
 	{
 		close(p[0]);
-		return(-1);
+		return (-1);
 	}
 	return (p[0]);
 }
