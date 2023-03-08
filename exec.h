@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 15:05:31 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/08 16:16:33 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/09 00:20:20 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,9 @@ typedef struct s_utils
 	int		size;
 }	t_utils;
 
-//add ambegious or whatever that shit is
-
 /*---------builtins---------*/
 int		pwd(void);
 int		env(t_env *envp);
-/// handle cd no arg and with ~ take to home, cd - previous path 
 int		cd(t_cmd cmd, t_env*env);
 int		echo(char **av);
 int		ft_exit(char **arg);
@@ -108,10 +105,9 @@ int		call_builtin(t_env **env_var, t_cmd	*cmd);
 int		is_builtin(char *cmd);
 int		find_heredoc(t_cmd *cmd, t_env *env);
 int		check_if_exported(char *add, int r);
-void	plus_add_new(t_env **env, int r, char *add, t_env *new);
-int		add_new(char *add, int r, t_env **env, t_env *new);
 void	print_export(t_env **env);
 int		set_node(char *add, int r, t_env *new);
+void	plus_none_existed_var(t_env **env, int r, char *add);
 
 /*----------utils----------*/
 void	free_env(t_env *env);
@@ -126,6 +122,8 @@ char	**to_return(DIR *dir, char *cwd, char **files);
 char	*my_strchr(const char *str, int c);
 int		ft_cmdsize(t_cmd *lst);
 void	free_utils(int *utils, pid_t *id);
+int		free_them(char **hold);
+int		exist_in_env(t_env **env, char *add);
 
 /*--------in_out_utils-------*/
 void	get_old_fd(int in, t_env **env_vars, t_cmd *cmd);

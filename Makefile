@@ -5,19 +5,18 @@ SRCS	= $(wildcard ./builtins/*.c) main.c $(wildcard ./execution/*.c) $(wildcard 
 CC		= cc
 
 CFLAGS	= -Wall -Wextra -Werror -lreadline
+
 NAME	= minishell
 
-MK_FILE	= Makefile
-
-# OBJS	= $(SRCS:.c=.o)
+OBJS	= $(SRCS:.c=.o)
 
 all		: $(NAME)
 
-# .c.o	:
-# 		$(CC) $(CFLAGS) -c $(SRCS) -o $(NAME)
-
-$(NAME) : $(SRCS) $(MK_FILE)
+.c.o	:
 		# stty -echoctl
+		$(CC) -o $@ -c $<
+
+$(NAME) : $(OBJS)
 		$(CC) $(CFLAGS) $(SRCS) -o $(NAME)
 		echo $(NAME) is created!
 

@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 17:38:39 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/07 21:37:46 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/08 23:09:16 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	ft_exit(char **arg)
 		printf("exit\n");
 		exit (g_global_data.exit_status);
 	}
+	ft_atoi(ft_strdup(arg[1]));
 	if (arg[2])
 	{
 		ft_dprintf("exit\nexit: too many argument\n", 0);
