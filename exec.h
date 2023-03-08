@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 15:05:31 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/08 02:43:34 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/08 14:17:13 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ int		is_alphanum(char *s);
 int		ft_wait(int *id, int i, t_pipe *p);
 void	get_old_fd(int in, t_env **env_vars, t_cmd *cmd);
 char	**to_return(DIR *dir, char *cwd, char **files);
+char	*my_strchr(const char *str, int c);
 
 /*---------checking--------*/
 void	check(t_cmd *cmd, t_env **env);
@@ -136,6 +137,7 @@ void	check_if_dir(char	*name);
 
 /*------single_command-----*/
 void	single_cmd(t_cmd *cmd, t_env *env);
+void	set_for_single_command(t_cmd *cmd, t_env *env);
 
 /*-----multiple_command----*/
 void	even_child(int in, int out, t_pipe p);

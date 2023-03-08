@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 15:16:41 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/08 02:43:47 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/08 13:32:01 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	init_ints(t_int	*utils, char *wildcard)
 		utils->end = END;
 }
 
-void	check_file_name(int i, char *tab, t_int *utils, char *name)
+void	check_file_name(int i, char **tab, t_int *utils, char *name)
 {
 	if (!i && utils->start == START)
 		utils->s = ft_strstr(name, tab[i], utils->s, utils->start);

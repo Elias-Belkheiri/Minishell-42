@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 15:09:16 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/08 00:30:27 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/08 14:20:07 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,17 +71,4 @@ int	find_herdoc(t_cmd *cmd, t_env *env)
 	return (her);
 }
 
-int	ft_cmdsize(t_cmd *lst)
-{
-	int	len;
 
-	if (!lst)
-		return (0);
-	len = 0;
-	while (lst)
-	{
-		len++;
-		lst = lst->next;
-	}
-	return (len);
-}

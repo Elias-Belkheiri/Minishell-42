@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 22:21:01 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/08 00:29:44 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/08 14:19:34 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,32 +79,40 @@ int	call_builtin(t_env **env_var, t_cmd	*cmd)
 	return (ex);
 }
 
+int	open_in_out(int *io, t_cmd cmd)
+{
+	io[0] = set_in(0, cmd, 0);
+	if (io[0] == -1)
+	{
+		g_global_data.exit_status = 1;
+		return (-1);
+	}
+	io[1] = set_out(cmd);
+	if (io[1] == -1)
+	{
+		g_global_data.exit_status = 1;
+		return (-1);
+	}
+	if (io[1] != 1)
+	{
+		dup2(io[1], 1);
+		close(io[1]);
+	}
+	return (1);
+}
+
 void	check(t_cmd *cmd, t_env **env)
 {
-	int		i;
 	int		temp;
-	pid_t	id;
 	int		io[2];
 
-	i = 0;
 	temp = dup(STDOUT_FILENO);
-	i = ft_cmdsize(cmd);
 	if (cmd && !cmd->next)
 	{
 		if (cmd->cmd && cmd->cmd[0] && is_builtin(cmd->cmd[0]))
 		{
-			io[0] = set_in(0, *cmd, 0);
-			io[1] = set_out(*cmd);
-			if (io[0] == -1 || io[1] == -1)
-			{
-				g_global_data.exit_status = 1;
+			if (open_in_out(io, *cmd) == -1)
 				return ;
-			}
-			if (io[1] != 1)
-			{
-				dup2(io[1], 1);
-				close(io[1]);
-			}
 			g_global_data.exit_status = call_builtin(env, cmd);
 			dup2(temp, 1);
 			close(temp);
@@ -112,17 +120,8 @@ void	check(t_cmd *cmd, t_env **env)
 				close(io[0]);
 		}
 		else
-		{
-			id = fork();
-			if (!id)
-			{
-				signal(SIGQUIT, SIG_DFL);
-				signal(SIGINT, SIG_DFL);
-				single_cmd(cmd, *env);
-			}
-			g_global_data.exit_status = ft_wait(&id, 0, 0);
-		}
+			set_for_single_command(cmd, *env);
 	}
 	else
-		multiple_cmds(i, cmd, env);
+		multiple_cmds(ft_cmdsize(cmd), cmd, env);
 }
