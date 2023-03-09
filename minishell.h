@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelkhei <ebelkhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 11:29:33 by ebelkhei          #+#    #+#             */
-/*   Updated: 2023/03/08 16:13:30 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/09 12:32:25 by ebelkhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,10 +120,6 @@ void			ignore_exp_here_doc(t_token *tok);
 int				ft_join(t_token **token, t_token *bef);
 int				check_digits(char *str);
 int				must_expand(int a, int b);
-// int		ft_lstsize(t_token *lst);
-// t_token	*ft_lstlast(t_token *lst);
-// void	ft_lstadd_front(t_token **lst, t_token *new);
-// void	ft_lstiter(t_token *lst, void (*f)(void *));
-// t_token	*ft_lstmap(t_token *lst, void *(*f)(void *), void (*del)(void *));
+void			rl_replace_line(const char *s, int n);
 
 #endif

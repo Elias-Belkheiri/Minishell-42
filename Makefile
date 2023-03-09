@@ -4,7 +4,7 @@ SRCS	= $(wildcard ./builtins/*.c) main.c $(wildcard ./execution/*.c) $(wildcard 
 
 CC		= cc
 
-CFLAGS	= -Wall -Wextra -Werror -lreadline
+CFLAGS	= -Wall -Wextra -Werror -lreadline -L/goinfre/ebelkhei/homebrew/opt/readline/lib -I/goinfre/ebelkhei/homebrew/opt/readline/include
 
 NAME	= minishell
 
