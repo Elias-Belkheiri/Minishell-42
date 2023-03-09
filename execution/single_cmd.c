@@ -6,7 +6,7 @@
 /*   By: hhattaki <hhattaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 23:14:54 by hhattaki          #+#    #+#             */
-/*   Updated: 2023/03/08 15:44:58 by hhattaki         ###   ########.fr       */
+/*   Updated: 2023/03/09 13:45:43 by hhattaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,12 @@ void	check_if_dir(char	*name)
 		ft_dprintf("%s: is a directory\n", name);
 		g_global_data.exit_status = 126;
 		closedir(dir);
+		exit(g_global_data.exit_status);
+	}
+	if (access(name, F_OK))
+	{
+		ft_dprintf("%s: No such file or directory\n", name);
+		g_global_data.exit_status = 127;
 		exit(g_global_data.exit_status);
 	}
 }
