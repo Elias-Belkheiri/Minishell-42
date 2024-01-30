@@ -5,8 +5,6 @@ Minishell is a lightweight Unix shell interpreter that processes and executes co
 
 # Core Features
 
-## Basic Features:
-
 **Prompt Display:** MiniShell displays a prompt when waiting for a new command, enhancing user interaction.
 
 **Command History:** It maintains a history of executed commands, allowing users to revisit previous commands.
