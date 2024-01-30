@@ -55,8 +55,6 @@ DOUBLE: Indicates double quotes (").
 
 SINGLE: Indicates single quotes (').
 
-HYPHEN: Represents a hyphen character (-).
-
 WORD: General word or command.
 
 SINGLE_EXPAND: Single quotes that allow expansion.
