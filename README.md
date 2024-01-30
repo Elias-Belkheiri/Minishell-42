@@ -5,7 +5,7 @@ MiniShell is a lightweight Unix shell interpreter that processes and executes co
 
 # Core Features
 
-### Built-in Commands:
+**Built-in Commands:**
 
 **echo:** Print text to the terminal, with an -n option to omit the trailing newline.
 
