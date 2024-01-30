@@ -51,3 +51,61 @@ Minishell is a lightweight Unix shell interpreter that processes and executes co
 **CTRL-D:** Exits the shell or sends EOF (End-Of-File) if no process is running.
 
 **CTRL-\:** Quits the current process but doesn't exit the shell.
+
+# Implementation
+
+### Lexer and Tokenization
+
+The lexer plays a crucial role in parsing commands entered into Minishell. It breaks down the input into manageable tokens based on their type. Each token is represented by the ***t_token structure***, which includes the token's content, type, an expansion flag, and a pointer to the next token:
+
+```C
+typedef struct t_token
+{
+    char            *content;
+    int             type;
+    int             expanded;
+    struct t_token  *next;
+}   t_token;
+```
+The Types are definded as folllows:
+```
+SPACES: Represents space characters.
+
+PIPE: Symbolizes the pipe character (|) used for piping commands.
+
+OPERATOR: Includes operators like &&, ||.
+
+DOUBLE: Indicates double quotes (").
+
+SINGLE: Indicates single quotes (').
+
+HYPHEN: Represents a hyphen character (-).
+
+WORD: General word or command.
+
+SINGLE_EXPAND: Single quotes that allow expansion.
+```
+
+### Expansion
+
+After tokenization, the lexer expands environment variables and wildcards. It also removes unnecessary spaces, preparing the tokens for further processing.
+
+
+### Command Separation
+
+Using a linked list structure, MiniShell separates the commands and their corresponding types. The t_cmd structure represents each command:
+```C
+typedef struct t_cmd
+{
+    char            **cmd;
+    t_redirection    *in;
+    t_redirection    *out;
+    int              pipe;
+    int              err;
+    struct t_cmd     *next;
+}   t_cmd;
+```
+
+### Execution
+
+Once the parsing is complete, Minishell loops through the linked list of commands ***(t_cmd)***. Each command is executed according to its type and the specified redirections or piping. The shell handles errors and ensures the correct sequence and combination of commands.
