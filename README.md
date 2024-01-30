@@ -5,7 +5,7 @@ MiniShell is a lightweight Unix shell interpreter that processes and executes co
 
 # Core Features
 
-## Built-in Commands:
+### Built-in Commands:
 
 **echo:** Print text to the terminal, with an -n option to omit the trailing newline.
 
@@ -17,18 +17,18 @@ MiniShell is a lightweight Unix shell interpreter that processes and executes co
 
 **exit:** Exit the shell, with no flags.
 
-**Prompt Display:** MiniShell displays a prompt when waiting for a new command, enhancing user interaction.
+### Prompt Display: MiniShell displays a prompt when waiting for a new command, enhancing user interaction.
 
-***Command History:** It maintains a history of executed commands, allowing users to revisit previous commands.
+### Command History: It maintains a history of executed commands, allowing users to revisit previous commands.
 
-***Executable Launching:*** The shell can find and launch executables, either using the PATH variable or by specifying an absolute path.
+### Executable Launching: The shell can find and launch executables, either using the PATH variable or by specifying an absolute path.
 
-***Quoting Mechanisms:*** MiniShell handles single (') and double (") quotes, similar to Bash, allowing for grouping of characters as a single argument or string.
+### Quoting Mechanisms: MiniShell handles single (') and double (") quotes, similar to Bash, allowing for grouping of characters as a single argument or string.
 
 
-**Redirections:**
+### Redirections:
 
-***<:*** Redirect input from a file to a command.
+**<:** Redirect input from a file to a command.
 
 ***>:*** Redirect output of a command to a file, overwriting it.
 
