@@ -14,7 +14,6 @@ Minishell is a lightweight Unix shell interpreter that processes and executes co
 **Quoting Mechanisms:*** Minishell handles single (') and double (") quotes, similar to Bash, allowing for grouping of characters as a single argument or string.
 
 
-
 ### Built-in Commands:
 
 ***echo:*** Print text to the terminal, with an -n option to omit the trailing newline.
